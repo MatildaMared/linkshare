@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
+const userRoutes = require("./routes/userRoutes");
 require("dotenv").config();
 const PORT = process.env.PORT || 8000;
 
@@ -16,6 +17,8 @@ app.use(express.static(path.join(__dirname, "./client/build")))
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
+
+app.use("/api/users", userRoutes);
 
 // ### START SERVER AND CONNECT TO DB ###
 
