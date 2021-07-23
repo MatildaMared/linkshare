@@ -8,7 +8,10 @@ router.post("/signup", authController.signup);
 // Log in user
 router.post("/login", authController.login);
 
-// Log out user
-router.get("/logout", authController.logout);
+// Generate a token to enable changing password
+router.post("/forgotPassword", authController.forgotPassword);
+
+// Change password
+router.put("/resetPassword", authController.resetPassword);
 
 module.exports = router;

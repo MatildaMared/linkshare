@@ -1,8 +1,10 @@
+require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
-const userRoutes = require("./routes/userRoutes");
-require("dotenv").config();
+const authRoutes = require("./routes/authRoutes");
+const { protectRoute } = require("./middleware/authMiddleware");
+const errorHandler = require("./middleware/errorHandler");
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -10,31 +12,43 @@ const app = express();
 // ### MIDDLEWARES ###
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "./client/build")))
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.use("/private", protectRoute);
 
 // ### ROUTES ###
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+	res.send("Hello!");
 });
 
-app.use("/api/users", userRoutes);
+app.get("/private", (req, res) => {
+	res.send("Private!");
+});
+
+app.use("/api/auth", authRoutes);
+
+// Error Middleware
+app.use(errorHandler);
 
 // ### START SERVER AND CONNECT TO DB ###
 
 app.listen(PORT, () => {
-  console.log(`Server up and running on port ${PORT}... 💻`);
+	console.log(`Server up and running on port ${PORT}... 💻`);
 });
 
-mongoose.connect(
-  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xxuvj.mongodb.net/linkshare`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: true
-}
-).then(() => {
-  console.log("Connected to database... 📝");
-}).catch((err) => {
-  console.log("There was an error connecting to database: ", err);
-});
+mongoose
+	.connect(
+		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xxuvj.mongodb.net/linkshare`,
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
+			useFindAndModify: true,
+		}
+	)
+	.then(() => {
+		console.log("Connected to database... 📝");
+	})
+	.catch((err) => {
+		console.log("There was an error connecting to database: ", err);
+	});
