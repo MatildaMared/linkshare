@@ -9,9 +9,9 @@ router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
 // Generate a token to enable changing password
-router.post("/forgotPassword", authController.forgotPassword);
+router.post("/forgotpassword", authController.forgotPassword);
 
 // Change password
-router.put("/resetPassword", authController.resetPassword);
+router.put("/resetpassword/:resetToken", authController.resetPassword);
 
 module.exports = router;

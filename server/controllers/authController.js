@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const ErrorResponse = require("../utilities/errorResponse");
 const sendMail = require("../utilities/sendMail");
+const crypto = require("crypto");
 
 async function signup(req, res, next) {
 	try {
@@ -50,30 +51,45 @@ async function login(req, res, next) {
 	}
 }
 
-async function forgotPassword(req, res) {
+async function forgotPassword(req, res, next) {
 	try {
 		const { email } = req.body;
 
-		const resetToken = "test";
+		const user = await User.findOne({ email });
 
-		const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+		if (!user) {
+			return next(new ErrorResponse("Email could not be sent...", 404));
+		}
+
+		const resetToken = user.getPasswordResetToken();
+		console.log("Final password reset token is: ", resetToken);
+
+		await user.save();
+
+		const resetUrl = `http://localhost:8000/api/auth/resetpassword/${resetToken}`;
 
 		const message = `
-			<h1>Password reset request 📝</h1>
-			<p>You have made a request to reset your password at Linkshare. Please follow this link to create a new password: </p>
+			<h1>Linkshare password reset request</h1>
+			<p>So you forgot your password, huh? 😣 Don't worry, it happens to everyone sometimes... 😊 Just follow the link below to create a new password and you'll be back up and running in no time! </p>
 			<a href=${resetUrl} clicktracking=off>Reset Password 💜</a>
 		`;
 
 		try {
 			await sendMail({
 				userEmail: email,
-				subject: "Password reset request...",
+				subject: "Password reset request... 💜",
 				html: message,
 			});
 
 			res.status(200).json({ success: true, message: "Reset email sent..." });
 		} catch (err) {
 			console.log(err);
+
+			user.passwordResetToken = undefined;
+			user.passwordResetExpire = undefined;
+
+			await user.save();
+
 			return next(new ErrorResponse("Email could not be sent...", 500));
 		}
 	} catch (err) {
@@ -81,9 +97,37 @@ async function forgotPassword(req, res) {
 	}
 }
 
-function resetPassword(req, res) {
-	console.log("Reset password");
-	res.send("Reset password");
+async function resetPassword(req, res, next) {
+	try {
+
+		const passwordResetToken = crypto
+			.createHash("sha256")
+			.update(req.params.resetToken)
+			.digest("hex");
+
+		const user = await User.findOne({
+			passwordResetToken,
+			passwordResetExpire: { $gt: Date.now() },
+		});
+
+		if (!user) {
+			return next(new ErrorResponse("Invalid token...", 400));
+		}
+
+		user.password = req.body.password;
+		user.passwordResetToken = undefined;
+		user.passwordResetExpire = undefined;
+
+		await user.save();
+
+		res.status(201).json({
+			success: true,
+			message: "Password updated successfully!",
+			token: user.getToken(),
+		});
+	} catch (err) {
+		next(err);
+	}
 }
 
 module.exports = { signup, login, forgotPassword, resetPassword };

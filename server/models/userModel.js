@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const TEN_MINUTES = 10 * (60 * 1000);
 
 const userSchema = new mongoose.Schema({
 	username: {
@@ -20,6 +22,8 @@ const userSchema = new mongoose.Schema({
 		required: [true, "Please enter a password..."],
 		minLength: [8, "Password needs to be at least 8 characters long..."],
 	},
+	passwordResetToken: String,
+	passwordResetExpire: Date,
 });
 
 // Run this function before user is saved/re-saved
@@ -40,8 +44,22 @@ userSchema.methods.checkPassword = function (enteredPassword, userPassword) {
 };
 
 userSchema.methods.getToken = function () {
-	return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE});
+	return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+		expiresIn: process.env.JWT_EXPIRE,
+	});
 };
+
+userSchema.methods.getPasswordResetToken = function () {
+	const resetToken = crypto.randomBytes(20).toString("hex");
+	console.log("Reset token is: ", resetToken);
+
+	this.passwordResetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+	console.log("Hashed password token: ", this.passwordResetToken);
+
+	this.passwordResetExpire = Date.now() + TEN_MINUTES;
+
+	return resetToken;
+}
 
 const User = mongoose.model("User", userSchema);
 
