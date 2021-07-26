@@ -75,11 +75,13 @@ async function forgotPassword(req, res, next) {
 		`;
 
 		try {
-			await sendMail({
+			const result = await sendMail({
 				userEmail: email,
 				subject: "Password reset request... 💜",
 				html: message,
 			});
+			
+			console.log("Result is: ", result);
 
 			res.status(200).json({ success: true, message: "Reset email sent..." });
 		} catch (err) {

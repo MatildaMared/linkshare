@@ -3,7 +3,10 @@ const nodemailer = require("nodemailer");
 const sendMail = ({ userEmail, subject, html }) => {
   console.log(userEmail, subject, html);
 	const transporter = nodemailer.createTransport({
-		service: process.env.EMAIL_SERVICE,
+		// service: process.env.EMAIL_SERVICE,
+		host: process.env.EMAIL_HOST,
+		port: process.env.EMAIL_PORT,
+		secure: false,
 		auth: {
 			user: process.env.EMAIL_USER,
 			pass: process.env.EMAIL_PASSWORD,
