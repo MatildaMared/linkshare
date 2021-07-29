@@ -26,6 +26,9 @@ async function signup(req, res, next) {
 async function login(req, res, next) {
 	try {
 		const { email, password } = req.body;
+
+		console.log("Email: ", email, "Password: ", password);
+		
 		if (!email || !password) {
 			return next(new ErrorResponse("Please enter email and password...", 400));
 		}

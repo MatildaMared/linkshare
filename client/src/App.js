@@ -7,9 +7,11 @@ import LoginPage from "./pages/LoginPage";
 function App() {
 	return (
 		<Router>
-      <div>
-        <Route exact path="/login" component={LoginPage} />
-      </div>
+			<div>
+				<Switch>
+					<Route exact path="/login" component={LoginPage} />
+				</Switch>
+			</div>
 		</Router>
 	);
 }

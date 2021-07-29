@@ -1,5 +1,6 @@
 require("dotenv").config();
 const path = require("path");
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
@@ -11,6 +12,7 @@ const app = express();
 
 // ### MIDDLEWARES ###
 
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "./client/build")));
 app.use("/private", protectRoute);
