@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LoginPage.scss";
 
-const LoginPage = () => {
+const LoginPage = ({history}) => {
 	const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      history.push("/");
+    }
+  }, [history])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -23,7 +29,12 @@ const LoginPage = () => {
 		});
 
 		const data = await response.json();
-		console.log(data);
+    console.log(data);
+    
+    if (data.success) {
+      localStorage.setItem("token", data.token);
+      history.push("/");
+    }
 	};
 
 	return (

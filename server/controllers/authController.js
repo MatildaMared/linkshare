@@ -28,7 +28,7 @@ async function login(req, res, next) {
 		const { email, password } = req.body;
 
 		console.log("Email: ", email, "Password: ", password);
-		
+
 		if (!email || !password) {
 			return next(new ErrorResponse("Please enter email and password...", 400));
 		}
@@ -42,9 +42,9 @@ async function login(req, res, next) {
 
 		res.status(200).json({
 			success: true,
+			token: user.getToken(),
 			user: {
 				_id: user._id,
-				token: user.getToken(),
 				username: user.username,
 				email: user.email,
 			},
@@ -83,7 +83,7 @@ async function forgotPassword(req, res, next) {
 				subject: "Password reset request... 💜",
 				html: message,
 			});
-			
+
 			console.log("Result is: ", result);
 
 			res.status(200).json({ success: true, message: "Reset email sent..." });
@@ -104,7 +104,6 @@ async function forgotPassword(req, res, next) {
 
 async function resetPassword(req, res, next) {
 	try {
-
 		const passwordResetToken = crypto
 			.createHash("sha256")
 			.update(req.params.resetToken)
