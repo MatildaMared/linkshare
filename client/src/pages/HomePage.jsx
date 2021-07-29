@@ -1,21 +1,32 @@
 import React, { useEffect } from "react";
 
 const HomePage = (props) => {
-  // const redirectToLogin = () => {
-  //   props.history.push("login");
-  // }
+	const redirectToLogin = () => {
+		props.history.push("login");
+	};
 
-  // const checkToken = () => {
-  //   try {
-  //     const response = await fetch("http://localhost:8000/api/auth")
-  //   } catch (err) {
-  //     redirectToLogin();
-  //   }
-  // }
-  
-  // useEffect(() => {
-  //   checkToken()
-  // }, [])
+	const checkToken = async () => {
+		try {
+			const response = await fetch("http://localhost:8000/api/private", {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			});
+
+			const data = await response.json();
+
+			if (!data.success) {
+				redirectToLogin();
+			}
+		} catch (err) {
+			redirectToLogin();
+		}
+	};
+
+	useEffect(() => {
+		checkToken();
+	});
 
 	return (
 		<div>
