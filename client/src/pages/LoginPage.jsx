@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.scss";
+import Layout from "../layout/Layout";
 
 const LoginPage = ({history}) => {
 	const [email, setEmail] = useState("");
@@ -38,47 +39,49 @@ const LoginPage = ({history}) => {
 	};
 
 	return (
-		<div className="login-page">
-			<div className="login">
-				<h1 className="login__heading">Log In 💜</h1>
-				<form className="login__form">
-					<div className="form__group">
-						<label className="form__label" htmlFor="email">
-							E-mail:
-						</label>
-						<input
-							className="form__input"
-							type="email"
-							id="email"
-							name="email"
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-					</div>
-					<p className="form__error">{usernameError}</p>
-					<div className="form__group">
-						<label className="form__label" htmlFor="password">
-							Password:
-						</label>
-						<input
-							className="form__input"
-							type="password"
-							id="password"
-							name="password"
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
-					<p className="form__error">{passwordError}</p>
-					<div className="form__control">
-						<input
-							className="form__btn"
-							type="submit"
-							value="Submit"
-							onClick={handleSubmit}
-						/>
-					</div>
-				</form>
+		<Layout>
+			<div className="login-page">
+				<div className="login">
+					<h1 className="login__heading">Log In 💜</h1>
+					<form className="login__form">
+						<div className="form__group">
+							<label className="form__label" htmlFor="email">
+								E-mail:
+							</label>
+							<input
+								className="form__input"
+								type="email"
+								id="email"
+								name="email"
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
+						<p className="form__error">{usernameError}</p>
+						<div className="form__group">
+							<label className="form__label" htmlFor="password">
+								Password:
+							</label>
+							<input
+								className="form__input"
+								type="password"
+								id="password"
+								name="password"
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
+						<p className="form__error">{passwordError}</p>
+						<div className="form__control">
+							<input
+								className="form__btn"
+								type="submit"
+								value="Submit"
+								onClick={handleSubmit}
+							/>
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 };
 

@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Layout from "../layout/Layout";
 
 const HomePage = (props) => {
+	const [user, setUser] = useState("");
+
 	const redirectToLogin = () => {
 		props.history.push("login");
 	};
@@ -19,6 +22,8 @@ const HomePage = (props) => {
 			if (!data.success) {
 				redirectToLogin();
 			}
+
+			setUser(data.user);
 		} catch (err) {
 			redirectToLogin();
 		}
@@ -29,9 +34,9 @@ const HomePage = (props) => {
 	});
 
 	return (
-		<div>
-			<h1>Home Page super secret!</h1>
-		</div>
+		<Layout>
+			<h1>Hello {user.username}!</h1>
+		</Layout>
 	);
 };
 
