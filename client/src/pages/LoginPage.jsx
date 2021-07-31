@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./LoginPage.scss";
 import Layout from "../layout/Layout";
 
 const LoginPage = ({history}) => {
 	const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -40,39 +38,48 @@ const LoginPage = ({history}) => {
 
 	return (
 		<Layout>
-			<div className="login-page">
-				<div className="login">
-					<h1 className="login__heading">Log In 💜</h1>
-					<form className="login__form">
-						<div className="form__group">
-							<label className="form__label" htmlFor="email">
+			<div className="p-6 my-8 max-w-md mx-auto bg-white bg-opacity-80 rounded-xl shadow-md flex items-center space-x-4">
+				<div className="w-full">
+					<h1 className="text-4xl mb-8 mt-4 font-bold text-purple-600 text-center">
+						Log In 💜
+					</h1>
+					<form className="w-full">
+						<div className="flex items-center mb-4">
+							<label
+								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
+								htmlFor="email">
 								E-mail:
 							</label>
 							<input
-								className="form__input"
+								className="bg-purple-50 appearance-none border-2 border-transparent rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-purple-500"
 								type="email"
 								id="email"
 								name="email"
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
-						<p className="form__error">{usernameError}</p>
-						<div className="form__group">
-							<label className="form__label" htmlFor="password">
+						<div className="flex items-center mb-4">
+							<label
+								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
+								htmlFor="password">
 								Password:
 							</label>
 							<input
-								className="form__input"
+								className="bg-purple-50 appearance-none border-2 border-transparent rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-purple-500"
 								type="password"
 								id="password"
 								name="password"
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 						</div>
-						<p className="form__error">{passwordError}</p>
-						<div className="form__control">
+						<div className="flex items-center">
+							<p className="text-center mb-8 font-light text-gray-500">
+								{errorMessage}
+							</p>
+						</div>
+						<div className="flex justify-center">
 							<input
-								className="form__btn"
+								className="bg-purple-500 p-2 rounded-md w-1/2 flex items-center justify-center text-white cursor-pointer font-semibold transition-all ease-in hover:bg-purple-50 hover:text-purple-700"
 								type="submit"
 								value="Submit"
 								onClick={handleSubmit}
