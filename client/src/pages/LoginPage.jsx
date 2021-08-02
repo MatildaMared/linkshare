@@ -15,7 +15,6 @@ const LoginPage = ({history}) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Email: ", email, "Password: ", password);
 
 		const response = await fetch("http://localhost:8000/api/auth/login", {
 			method: "POST",
@@ -29,7 +28,10 @@ const LoginPage = ({history}) => {
 		});
 
 		const data = await response.json();
-    console.log(data);
+
+    if (!data.success) {
+      setErrorMessage(data.error);
+    }
     
     if (data.success) {
       localStorage.setItem("token", data.token);
@@ -68,7 +70,7 @@ const LoginPage = ({history}) => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-6">
+						<div className="flex items-center mb-8">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="password">
@@ -83,7 +85,7 @@ const LoginPage = ({history}) => {
 							/>
 						</div>
 						<div className="flex items-center">
-							<p className="text-center mb-4 font-light text-gray-500">
+							<p className="w-full text-center mb-8 font-light text-gray-500">
 								{errorMessage}
 							</p>
 						</div>

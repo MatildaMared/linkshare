@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
 	const handleLogout = () => {
-		localStorage.removeItem("token");
+    localStorage.removeItem("token");
 	};
 
 	return (
