@@ -91,7 +91,7 @@ const LoginPage = ({history}) => {
 							<button
 								className="bg-purple-500 p-2 mb-8 rounded-full w-1/2 flex items-center justify-center text-white cursor-pointer font-semibold transition-all ease-in hover:bg-purple-50 hover:text-purple-700"
 								type="submit"
-								onClick={"handleSubmit"}>
+								onClick={handleSubmit}>
 								<span className="flex-grow">Submit</span>
 								<i className="bx bx-md bxs-right-arrow-circle text-purple-200"></i>
 							</button>

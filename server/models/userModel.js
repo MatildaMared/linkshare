@@ -5,6 +5,9 @@ const crypto = require("crypto");
 const TEN_MINUTES = 10 * (60 * 1000);
 
 const userSchema = new mongoose.Schema({
+	firstName: {
+		type: String
+	},
 	username: {
 		type: String,
 		lowercase: true,

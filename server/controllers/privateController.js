@@ -1,6 +1,7 @@
 function getAccess(req, res) {
 	const user = {
 		id: req.user.id,
+		firstName: req.user.firstName,
 		email: req.user.email,
 		username: req.user.username,
 	};

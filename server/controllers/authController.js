@@ -5,15 +5,15 @@ const crypto = require("crypto");
 
 async function signup(req, res, next) {
 	try {
-		const { username, email, password } = req.body;
-		console.log(username, password);
-		const user = await User.create({ username, email, password });
+		const { firstName, username, email, password } = req.body;
+		const user = await User.create({ firstName, username, email, password });
 
 		res.status(200).json({
 			success: true,
 			user: {
 				_id: user._id,
 				token: user.getToken(),
+				firstName,
 				username: user.username,
 				email: user.email,
 			},

@@ -8,8 +8,8 @@ const HomePage = (props) => {
 		props.history.push("login");
 	};
 
-	const checkToken = async () => {
-		try {
+  const checkToken = async () => {
+    try {
 			const response = await fetch("http://localhost:8000/api/private", {
 				method: "GET",
 				headers: {
@@ -35,7 +35,7 @@ const HomePage = (props) => {
 
 	return (
 		<Layout>
-			<h1>Hello {user.username}!</h1>
+			<h1>Hello {user.firstName}!</h1>
 		</Layout>
 	);
 };

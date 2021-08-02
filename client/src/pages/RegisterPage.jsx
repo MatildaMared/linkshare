@@ -1,13 +1,53 @@
 import { useState } from "react";
 import Layout from "../layout/Layout";
 
-const RegisterPage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [username, setUsername] = useState("");
+const RegisterPage = ({ history }) => {
+	const [firstName, setFirstName] = useState("");
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+	const [password, setPassword] = useState("");
+	const [passwordConfirm, setPasswordConfirm] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
+
+	const comparePasswords = () => {
+		return password === passwordConfirm;
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setErrorMessage("");
+		const matchingPasswords = comparePasswords();
+
+		if (!matchingPasswords) {
+			setErrorMessage("Please enter matching passwords...");
+			return;
+		}
+
+		const response = await fetch("http://localhost:8000/api/auth/signup", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				firstName:
+					firstName.trim().charAt(0).toUpperCase() +
+					firstName.trim().slice(1).toLowerCase(),
+				username,
+				email,
+				password,
+			}),
+		});
+    const data = await response.json();
+    
+		if (!data.success) {
+			setErrorMessage(data.error);
+		}
+
+		if (data.success) {
+			localStorage.setItem("token", data.user.token);
+			history.push("/");
+		}
+	};
 
 	return (
 		<Layout>
@@ -80,7 +120,7 @@ const RegisterPage = () => {
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-4">
+						<div className="flex items-center mb-8">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="password-confirm">
@@ -101,7 +141,7 @@ const RegisterPage = () => {
 							<button
 								className="bg-purple-500 p-2 mb-8 rounded-full w-1/2 flex items-center justify-center text-white cursor-pointer font-semibold transition-all ease-in hover:bg-purple-50 hover:text-purple-700"
 								type="submit"
-								onClick={"handleSubmit"}>
+								onClick={handleSubmit}>
 								<span className="flex-grow">Submit</span>
 								<i className="bx bx-md bxs-right-arrow-circle text-purple-200"></i>
 							</button>
