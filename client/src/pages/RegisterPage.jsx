@@ -11,20 +11,20 @@ const RegisterPage = () => {
 
 	return (
 		<Layout>
-			<div className="p-6 my-8 max-w-md mx-auto bg-white bg-opacity-80 rounded-xl shadow-md flex items-center space-x-4">
+			<div className="p-10 my-8 max-w-lg mx-auto bg-white bg-opacity-80 rounded-xl shadow-md flex items-center space-x-4">
 				<div className="w-full">
 					<div className="flex flex-col items-center">
-						<h1 className="text-4xl mb-4 mt-4 font-bold text-purple-600 text-center">
+						<h1 className="text-4xl my-8 font-bold text-purple-600 text-center">
 							Register 💜
 						</h1>
-						<p className="mb-4 font-sm font-semibold text-gray-600 w-4/5 text-center">
+						<p className="mb-8 font-sm font-semibold text-gray-600 w-4/5 text-center">
 							We are so happy that you would like to join us! Signing up is
 							completely free and all you need to do is to fill out the form
 							below! 😀
 						</p>
 					</div>
 					<form className="w-full">
-						<div className="flex items-center mb-4">
+						<div className="flex items-center mb-6">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="firstname">
@@ -38,7 +38,7 @@ const RegisterPage = () => {
 								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-4">
+						<div className="flex items-center mb-6">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="username">
@@ -52,7 +52,7 @@ const RegisterPage = () => {
 								onChange={(e) => setUsername(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-4">
+						<div className="flex items-center mb-6">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="email">
@@ -66,7 +66,7 @@ const RegisterPage = () => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-4">
+						<div className="flex items-center mb-6">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="password">
@@ -98,21 +98,20 @@ const RegisterPage = () => {
 							{errorMessage}
 						</p>
 						<div className="flex items-center justify-center mt-4">
-							<input
-								className="bg-purple-500 p-2 mb-4 rounded-md w-1/2 flex items-center justify-center text-white cursor-pointer font-semibold transition-all ease-in hover:bg-purple-50 hover:text-purple-700"
+							<button
+								className="bg-purple-500 p-2 mb-8 rounded-full w-1/2 flex items-center justify-center text-white cursor-pointer font-semibold transition-all ease-in hover:bg-purple-50 hover:text-purple-700"
 								type="submit"
-								value="Submit"
-								onClick={"handleSubmit"}
-							/>
+								onClick={"handleSubmit"}>
+								<span className="flex-grow">Submit</span>
+								<i className="bx bx-md bxs-right-arrow-circle text-purple-200"></i>
+							</button>
 						</div>
 					</form>
-					<div>
-						<p className="text-sm text-center font-light italic text-gray-500">
-							Note that we will never share your private information with anyone
-							else. Your privacy comes first at all times!
-							<span className="not-italic"> 😊</span>
-						</p>
-					</div>
+					<p className="text-sm text-center font-light italic text-gray-400">
+						Note that we will never share your private information with anyone
+						else. Your privacy comes first at all times!{" "}
+						<span className="not-italic"> 😊</span>
+					</p>
 				</div>
 			</div>
 		</Layout>
