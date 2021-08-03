@@ -35,7 +35,7 @@ const HomePage = (props) => {
 
 	return (
 		<Layout>
-			<h1>Hello {user.firstName}!</h1>
+			<h1 className="text-4xl font-bold text-gray-700 text-center my-8">Hello, {user.firstName}!</h1>
 		</Layout>
 	);
 };

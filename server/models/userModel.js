@@ -6,7 +6,7 @@ const TEN_MINUTES = 10 * (60 * 1000);
 
 const userSchema = new mongoose.Schema({
 	firstName: {
-		type: String
+		type: String,
 	},
 	username: {
 		type: String,
@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
 		lowercase: true,
 		required: [true, "Please enter an email..."],
 		unique: [true, "This email is already in use..."],
+		match: [
+			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+			"Please enter a valid email address...",
+		],
 	},
 	password: {
 		type: String,
@@ -56,13 +60,16 @@ userSchema.methods.getPasswordResetToken = function () {
 	const resetToken = crypto.randomBytes(20).toString("hex");
 	console.log("Reset token is: ", resetToken);
 
-	this.passwordResetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+	this.passwordResetToken = crypto
+		.createHash("sha256")
+		.update(resetToken)
+		.digest("hex");
 	console.log("Hashed password token: ", this.passwordResetToken);
 
 	this.passwordResetExpire = Date.now() + TEN_MINUTES;
 
 	return resetToken;
-}
+};
 
 const User = mongoose.model("User", userSchema);
 

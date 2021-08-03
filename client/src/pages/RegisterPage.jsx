@@ -15,7 +15,13 @@ const RegisterPage = ({ history }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setErrorMessage("");
+    setErrorMessage("");
+    
+    if (!firstName || !username || !email || !password || !passwordConfirm) {
+      setErrorMessage("Please fill out all fields...");
+      return;
+    }
+
 		const matchingPasswords = comparePasswords();
 
 		if (!matchingPasswords) {

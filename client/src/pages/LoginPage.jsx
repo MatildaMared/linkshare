@@ -14,7 +14,7 @@ const LoginPage = ({history}) => {
   }, [history])
 
 	const handleSubmit = async (e) => {
-		e.preventDefault();
+    e.preventDefault();
 
 		const response = await fetch("http://localhost:8000/api/auth/login", {
 			method: "POST",
@@ -46,7 +46,7 @@ const LoginPage = ({history}) => {
 					<h1 className="text-4xl my-8 font-bold text-purple-600 text-center">
 						Log In 💜
 					</h1>
-					<p className="mb-8 font-sm font-semibold text-gray-600 w-4/5 text-center">
+					<p className="mb-10 font-sm font-semibold text-gray-600 w-4/5 text-center">
 						Welcome back gorgeous! 😊 Are you a new user?{" "}
 						<Link
 							className="whitespace-nowrap font-extrabold rounded text-purple-500 p-1 hover:bg-purple-500 hover:text-purple-100"
@@ -70,7 +70,7 @@ const LoginPage = ({history}) => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
-						<div className="flex items-center mb-8">
+						<div className="flex items-center mb-6">
 							<label
 								className="w-1/3 block uppercase tracking-wide text-gray-600 text-xs font-bold"
 								htmlFor="password">
@@ -85,7 +85,7 @@ const LoginPage = ({history}) => {
 							/>
 						</div>
 						<div className="flex items-center">
-							<p className="w-full text-center mb-8 font-light text-gray-500">
+							<p className="w-full text-center mb-6 font-light text-gray-500">
 								{errorMessage}
 							</p>
 						</div>
