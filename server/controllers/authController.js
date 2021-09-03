@@ -65,7 +65,6 @@ async function forgotPassword(req, res, next) {
 		}
 
 		const resetToken = user.getPasswordResetToken();
-		console.log("Final password reset token is: ", resetToken);
 
 		await user.save();
 

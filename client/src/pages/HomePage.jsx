@@ -31,7 +31,7 @@ const HomePage = (props) => {
 
 	useEffect(() => {
 		checkToken();
-	});
+	}, []);
 
 	return (
 		<Layout>

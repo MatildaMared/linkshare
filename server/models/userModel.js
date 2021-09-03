@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const TEN_MINUTES = 10 * (60 * 1000);
 
 const userSchema = new mongoose.Schema({
+	_id: mongoose.Schema.Types.ObjectId,
 	firstName: {
 		type: String,
 	},
@@ -29,6 +30,12 @@ const userSchema = new mongoose.Schema({
 		required: [true, "Please enter a password..."],
 		minLength: [8, "Password needs to be at least 8 characters long..."],
 	},
+	lists: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "List",
+		},
+	],
 	passwordResetToken: String,
 	passwordResetExpire: Date,
 });
