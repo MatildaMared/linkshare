@@ -4,12 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
-	const Wrapper = styled.div`
-		max-width: var(--max-width);
-		margin: 0 auto;
-		background-color: rgba(255, 255, 255, .2);
-	`;
-
 	return (
 		<Wrapper className="App">
 			<Router>
@@ -23,5 +17,11 @@ function App() {
 		</Wrapper>
 	);
 }
+
+const Wrapper = styled.div`
+	max-width: var(--max-width);
+	margin: 0 auto;
+	background-color: rgba(255, 255, 255, 0.2);
+`;
 
 export default App;
