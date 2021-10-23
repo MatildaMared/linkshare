@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import LoginForm from '../components/LoginForm';
 
 function LoginPage() {
+	const [activeComponent, setActiveComponent] = useState("login");
+
 	return (
-		<div>
-			<h1>LoginPage</h1>
-		</div>
+		<>
+      {activeComponent === "login" ? (
+        <LoginForm />
+      ) : (
+        <h1>Register</h1>
+      )}
+		</>
 	);
 }
 
