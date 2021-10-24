@@ -18,7 +18,7 @@ const ButtonElem = styled.button`
 	background-color: var(--color-primary-dark);
 	color: hsla(0, 0%, 100%, 0.8);
 	transition: all 0.3s;
-	border: 2px solid transparent;
+	border: 3px solid transparent;
 
 	&:hover {
 		background-color: var(--color-primary);
@@ -26,8 +26,9 @@ const ButtonElem = styled.button`
 
 	&:focus,
 	&:active {
-		border: 2px solid var(--color-primary);
-    background-color: red;
+		border: 3px solid var(--color-primary-dark);
+    background-color: var(--color-primary);
+    outline: none;
 	}
 `;
 
