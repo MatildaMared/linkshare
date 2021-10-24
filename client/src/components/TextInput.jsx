@@ -27,10 +27,20 @@ const Input = styled.input`
 	border-radius: 8px;
 	padding: 8px 16px;
 	border: none;
+	background-color: hsla(0deg 0% 100% / 0.3);
+	border: 2px solid transparent;
+
+	&:active,
+	&:focus {
+		background-color: hsla(0deg 0% 100% / 0.7);
+		outline: none;
+		border: 2px solid var(--color-primary);
+	}
 `;
 
 const Label = styled.label`
 	font-size: var(--font-size-small);
+	margin-bottom: 4px;
 `;
 
 export default TextInput;

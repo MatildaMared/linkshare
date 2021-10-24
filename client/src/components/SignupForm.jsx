@@ -3,11 +3,15 @@ import TextInput from "./TextInput";
 import styled from "styled-components";
 import Button from "./Button";
 
-function LoginForm() {
+function SignupForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
 	const emailRef = createRef();
 	const passwordRef = createRef();
+	const firstNameRef = createRef();
+	const lastNameRef = createRef();
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleSubmit = (e) => {
@@ -24,7 +28,23 @@ function LoginForm() {
 
 	return (
 		<Form onSubmit={handleSubmit}>
-			<Heading>Login</Heading>
+			<Heading>Sign Up</Heading>
+			<TextInput
+				type="text"
+				name="firstName"
+				label="First Name"
+				value={firstName}
+				onChange={setFirstName}
+				ref={firstNameRef}
+			/>
+			<TextInput
+				type="text"
+				name="lastName"
+				label="Last Name"
+				value={lastName}
+				onChange={setLastName}
+				ref={lastNameRef}
+			/>
 			<TextInput
 				type="email"
 				name="email"
@@ -52,7 +72,7 @@ const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	width: auto;
-	max-width: 350px;
+	max-width: 400px;
 	margin: 0 auto;
 	background-color: rgba(255, 255, 255, 0.4);
 	border-radius: var(--rounded-large);
@@ -73,4 +93,4 @@ const ErrorMessage = styled.p`
 	margin-bottom: 8px;
 `;
 
-export default LoginForm;
+export default SignupForm;

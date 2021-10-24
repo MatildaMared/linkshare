@@ -12,14 +12,25 @@ export default createGlobalStyle`
   --rounded-small: 4px;
   --rounded-medium: 8px;
   --rounded-large: 16px;
+
+  --color-primary-lightest: hsla(21, 100%, 85%, 1);
+  --color-primary-light: hsla(12, 100%, 82%, 1);
+  --color-primary: hsla(358, 60%, 75%, 1);
+  --color-primary-dark: hsla(348, 25%, 61%, 1);
+  --color-dark: hsla(263, 6%, 43%, 1);
+  --color-black: hsla(263, 6%, 20%, 1);
+
+  --gradient-bottom-right: linear-gradient(135deg, #ffb4a2ff, #e5989bff, #b5838dff);
 }
 
 html {
   font-family: var(--font-primary);
+  font-weight: 300;
+  color: var(--color-black);
 }
 
 body {
-  background-color: pink;
+  background: var(--gradient-bottom-right);
 }
 
 /* Box sizing rules */
@@ -41,6 +52,10 @@ blockquote,
 dl,
 dd {
   margin: 0;
+}
+
+h1, h2 {
+    font-weight: 800;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
