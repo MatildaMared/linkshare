@@ -5,7 +5,13 @@ export default createGlobalStyle`
 :root {
   --font-primary: "Poppins", sans-serif;
 
+  --font-size-small: 0.8rem;
+
   --max-width: 1300px;
+
+  --rounded-small: 4px;
+  --rounded-medium: 8px;
+  --rounded-large: 16px;
 }
 
 html {
