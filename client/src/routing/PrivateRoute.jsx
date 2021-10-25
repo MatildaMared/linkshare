@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import LoginPage from "../pages/LoginPage";
 
-function PrivateRoute({ component: Component, ...rest }) {
+function PrivateRoute({ component: Component, layout: Layout, ...rest }) {
   const [userContext, updateUserContext] = useContext(UserContext);
   console.log(userContext);
 	return (
@@ -13,7 +13,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 				return localStorage.getItem("token") &&
 					userContext.isAuthenticated === true &&
 					userContext.isLoading === false ? (
-					<Component />
+					<Layout component={Component} />
 				) : (
 					userContext.isLoading !== true && (
 						<div>
