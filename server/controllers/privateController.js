@@ -3,7 +3,6 @@ function getAccess(req, res) {
 		id: req.user.id,
 		firstName: req.user.firstName,
 		email: req.user.email,
-		username: req.user.username,
 	};
 
 	res.status(200).json({

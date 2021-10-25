@@ -55,7 +55,7 @@ const Heading = styled.h1`
 	margin-bottom: 16px;
 	text-align: center;
 	background-color: var(--color-primary-dark);
-	background-image: linear-gradient(to right bottom, var(--color-dark), var(--color-primary-dark));
+	background-image: linear-gradient(to right bottom, var(--color-dark), var(--color-primary-dark), var(--color-primary));
 	background-size: 100%;
   background-clip: text;
 	-webkit-background-clip: text;

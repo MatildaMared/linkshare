@@ -20,6 +20,8 @@ function SignupForm() {
 		console.log(email);
 		console.log(password);
 
+		console.log(emailRef.current);
+
 		setEmail("");
 		setPassword("");
 		emailRef.current.blur();
@@ -68,7 +70,7 @@ function SignupForm() {
 }
 
 const Form = styled.form`
-	padding: 16px 32px;
+	padding: 32px;
 	display: flex;
 	flex-direction: column;
 	width: auto;

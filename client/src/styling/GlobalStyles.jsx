@@ -15,12 +15,12 @@ export default createGlobalStyle`
 
   --color-primary-lightest: hsla(21, 100%, 85%, 1);
   --color-primary-light: hsla(12, 100%, 82%, 1);
-  --color-primary: hsla(358, 60%, 75%, 1);
-  --color-primary-dark: hsla(348, 25%, 61%, 1);
-  --color-dark: hsla(263, 6%, 43%, 1);
-  --color-black: hsla(263, 6%, 20%, 1);
+  --color-primary: hsla(355, 60%, 75%, 1);
+  --color-primary-dark: hsla(348, 25%, 55%, 1);
+  --color-dark: hsla(348, 20%, 30%, 1);
+  --color-black: hsla(348, 15%, 20%, 1);
 
-  --gradient-bottom-right: linear-gradient(135deg, #ffb4a2ff, #e5989bff, #b5838dff);
+  --gradient-bottom-right: linear-gradient(135deg, var(--color-primary-light), var(--color-primary), var(--color-primary-dark));
 }
 
 html {

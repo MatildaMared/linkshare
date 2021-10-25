@@ -1,25 +1,53 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import TextInput from "./TextInput";
 import styled from "styled-components";
 import Button from "./Button";
+import { login } from "./../services/authService";
 
 function LoginForm() {
+	const [userContext, updateUserContext] = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const emailRef = createRef();
 	const passwordRef = createRef();
 	const [errorMessage, setErrorMessage] = useState("");
 
-	const handleSubmit = (e) => {
-		console.log("Submitted!");
-		e.preventDefault();
-		console.log(email);
-		console.log(password);
-
-		setEmail("");
-		setPassword("");
+	const resetInputFields = () => {
 		emailRef.current.blur();
 		passwordRef.current.blur();
+		setEmail("");
+		setPassword("");
+	};
+
+	const handleSubmit = async (e) => {
+		try {
+			console.log("Inside login");
+			e.preventDefault();
+			setErrorMessage("");
+			resetInputFields();
+
+			const data = await login(email, password);
+			console.log(data);
+
+			if (data.success) {
+				localStorage.clear();
+				localStorage.setItem("token", data.token);
+				console.log(data.user);
+				updateUserContext({
+					user: data.user,
+					isAuthenticated: true,
+				});
+				if (location.pathname === "/login") {
+					history.push("/");
+				}
+			} else {
+				setShow(true);
+				setErrorMessage(data.error);
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -48,7 +76,7 @@ function LoginForm() {
 }
 
 const Form = styled.form`
-	padding: 16px 32px;
+	padding: 32px;
 	display: flex;
 	flex-direction: column;
 	width: auto;
@@ -64,11 +92,12 @@ const Form = styled.form`
 
 const Heading = styled.h1`
 	color: var(--color-primary-dark);
-	margin-bottom: 8px;
+	margin-bottom: 16px;
 	text-align: center;
 `;
 
 const ErrorMessage = styled.p`
+	height: 20px;
 	font-size: var(--font-size-small);
 	margin-bottom: 8px;
 `;

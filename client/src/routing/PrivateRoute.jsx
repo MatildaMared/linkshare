@@ -1,0 +1,32 @@
+import React, { useContext } from "react";
+import { Route } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import LoginPage from "../pages/LoginPage";
+
+function PrivateRoute({ component: Component, ...rest }) {
+  const [userContext, updateUserContext] = useContext(UserContext);
+  console.log(userContext);
+	return (
+		<Route
+			{...rest}
+			render={(props) => {
+				return localStorage.getItem("token") &&
+					userContext.isAuthenticated === true &&
+					userContext.isLoading === false ? (
+					<Component />
+				) : (
+					userContext.isLoading !== true && (
+						<div>
+							<h1>
+								You need to be logged in to access this page
+							</h1>
+							<LoginPage />
+						</div>
+					)
+				);
+			}}
+		/>
+	);
+}
+
+export default PrivateRoute;
