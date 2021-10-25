@@ -7,11 +7,11 @@ function SignupForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
+	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const emailRef = createRef();
 	const passwordRef = createRef();
+	const passwordConfirmRef = createRef();
 	const firstNameRef = createRef();
-	const lastNameRef = createRef();
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleSubmit = (e) => {
@@ -38,14 +38,6 @@ function SignupForm() {
 				ref={firstNameRef}
 			/>
 			<TextInput
-				type="text"
-				name="lastName"
-				label="Last Name"
-				value={lastName}
-				onChange={setLastName}
-				ref={lastNameRef}
-			/>
-			<TextInput
 				type="email"
 				name="email"
 				label="E-mail"
@@ -60,6 +52,14 @@ function SignupForm() {
 				value={password}
 				onChange={setPassword}
 				ref={passwordRef}
+			/>
+			<TextInput
+				type="password"
+				name="passwordConfirm"
+				label="Confirm Password"
+				value={passwordConfirm}
+				onChange={setPasswordConfirm}
+				ref={passwordConfirmRef}
 			/>
 			<ErrorMessage>{errorMessage}</ErrorMessage>
 			<Button type="submit">Log In</Button>

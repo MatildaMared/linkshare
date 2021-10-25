@@ -1,20 +1,28 @@
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
 const ErrorResponse = require("../utilities/errorResponse");
 const sendMail = require("../utilities/sendMail");
 const crypto = require("crypto");
 
 async function signup(req, res, next) {
 	try {
-		const { firstName, username, email, password } = req.body;
-		const user = await User.create({ firstName, username, email, password });
+		console.log("Inside signup!");
+		const { firstName, email, password } = req.body;
+		console.log(firstName, email, password);
+		const user = await User.create({
+			_id: new mongoose.Types.ObjectId(),
+			firstName,
+			email,
+			password,
+		});
+		console.log(user);
 
 		res.status(200).json({
 			success: true,
 			user: {
 				_id: user._id,
 				token: user.getToken(),
-				firstName,
-				username: user.username,
+				firstName: user.firstName,
 				email: user.email,
 			},
 		});
@@ -45,7 +53,7 @@ async function login(req, res, next) {
 			token: user.getToken(),
 			user: {
 				_id: user._id,
-				username: user.username,
+				firstName: user.firstName,
 				email: user.email,
 			},
 		});

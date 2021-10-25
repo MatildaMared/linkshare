@@ -9,12 +9,6 @@ const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
 	},
-	username: {
-		type: String,
-		lowercase: true,
-		required: [true, "Please enter a username..."],
-		unique: [true, "This username is already taken..."],
-	},
 	email: {
 		type: String,
 		lowercase: true,
