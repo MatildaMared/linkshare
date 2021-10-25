@@ -25,7 +25,6 @@ function App() {
 const Wrapper = styled.div`
 	max-width: var(--max-width);
 	margin: 0 auto;
-	background-color: rgba(255, 255, 255, 0.05);
 `;
 
 export default App;

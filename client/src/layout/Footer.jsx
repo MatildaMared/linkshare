@@ -10,9 +10,8 @@ function Footer() {
 }
 
 const Wrapper = styled.footer`
-  padding: 8px;
+  padding: 16px 8px;
   text-align: center;
-  background-color: hsla(0, 100%, 0%, .05);
 `
 
 const Copyright = styled.p`

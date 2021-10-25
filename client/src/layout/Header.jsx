@@ -27,7 +27,7 @@ const Logo = styled.h1`
 `;
 
 const Wrapper = styled.header`
-	padding: 0px;
+	padding: 16px 0px;
 `;
 
 export default Header;

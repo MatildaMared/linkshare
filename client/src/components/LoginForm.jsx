@@ -1,4 +1,5 @@
 import React, { useState, createRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import TextInput from "./TextInput";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ import { login } from "./../services/authService";
 
 function LoginForm() {
 	const [userContext, updateUserContext] = useContext(UserContext);
+	const history = useHistory();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const emailRef = createRef();

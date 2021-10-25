@@ -1,15 +1,15 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Menu from './Menu';
+import Menu from "./Menu";
 import styled from "styled-components";
 
 function Layout({ component: Component }) {
 	return (
 		<Wrapper>
 			<Header />
-      <MainContent>
-        <Menu />
+			<MainContent>
+				<Menu />
 				<Component />
 			</MainContent>
 			<Footer />
@@ -25,8 +25,13 @@ const Wrapper = styled.div`
 
 const MainContent = styled.div`
 	display: flex;
-  background-color: hsla(0, 0%, 100%, .1);
-  border-radius: var(--rounded-large);
+	border-radius: var(--rounded-large);
+	box-shadow: var(--shadow);
+
+	& main {
+		background-color: hsla(0, 0%, 100%, 0.25);
+		border-radius: 0 var(--rounded-large) var(--rounded-large) 0;
+	}
 `;
 
 export default Layout;

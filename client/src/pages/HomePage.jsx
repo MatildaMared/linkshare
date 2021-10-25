@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "./../context/UserContext";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 function HomePage() {
 	const [userContext, updateUserContext] = useContext(UserContext);
@@ -12,7 +12,8 @@ function HomePage() {
 }
 
 const Wrapper = styled.main`
+	width: 100%;
 	padding: 16px;
-`
+`;
 
 export default HomePage;
