@@ -31,6 +31,8 @@ const MainContent = styled.div`
 	& main {
 		background-color: hsla(0, 0%, 100%, 0.25);
 		border-radius: 0 var(--rounded-large) var(--rounded-large) 0;
+    width: 100%;
+    padding: 16px;
 	}
 `;
 

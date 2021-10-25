@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import Layout from "./layout/Layout";
 import { UserProvider } from "./context/UserContext";
 import PrivateRoute from "./routing/PrivateRoute";
+import ListsPage from "./pages/ListsPage";
+import AccountPage from "./pages/AccountPage";
 
 function App() {
 	return (
@@ -14,6 +16,12 @@ function App() {
 				<UserProvider>
 					<Switch>
 						<PrivateRoute exact path="/" component={HomePage} layout={Layout} />
+						<PrivateRoute path="/lists" component={ListsPage} layout={Layout} />
+						<PrivateRoute
+							path="/account"
+							component={AccountPage}
+							layout={Layout}
+						/>
 						<Route path="/login" component={LoginPage} />
 					</Switch>
 				</UserProvider>

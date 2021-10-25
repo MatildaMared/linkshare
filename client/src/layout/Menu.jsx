@@ -18,13 +18,13 @@ function Menu() {
 					</Link>
 				</Item>
 				<Item path="/lists" location={location}>
-					<Link to="/">
+					<Link to="/lists">
 						<BsListStars />
 						<span>Lists</span>
 					</Link>
 				</Item>
 				<Item path="/account" location={location}>
-					<Link to="/">
+					<Link to="/account">
 						<BiUserCircle />
 						<span>Account</span>
 					</Link>
@@ -52,13 +52,13 @@ const List = styled.ul`
 
 const Item = styled.li`
 	margin: 0;
-	padding: 16px;
 	border-bottom: 1px solid var(--color-primary-light);
-	background-color: ${props => props.path === props.location.pathname ? "hsla(0, 0%, 100%, 0.25)" : "hsla(0, 0%, 100%, 0.1)"};
+	background-color: ${(props) =>
+		props.path === props.location.pathname
+			? "hsla(0, 0%, 100%, 0.25)"
+			: "hsla(0, 0%, 100%, 0.1)"};
 	cursor: pointer;
 	transition: all 0.3s;
-
-  
 
 	&:hover {
 		background-color: hsla(0, 0%, 100%, 0.2);
@@ -69,6 +69,7 @@ const Item = styled.li`
 	}
 
 	& a {
+		padding: 16px;
 		width: 100%;
 		height: 100%;
 		text-decoration: none;
@@ -84,7 +85,10 @@ const Item = styled.li`
 	& svg {
 		font-size: 1.5rem;
 		margin-right: 16px;
-		color: ${props => props.path === props.location.pathname ? "var(--color-primary-dark)" : "var(--color-primary)"};
+		color: ${(props) =>
+			props.path === props.location.pathname
+				? "var(--color-primary-dark)"
+				: "var(--color-primary)"};
 		transition: all 0.3s;
 	}
 `;
