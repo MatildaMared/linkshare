@@ -1,31 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import LogoutBtn from "../components/LogoutBtn";
 import { BiHome, BiUserCircle } from "react-icons/bi";
 import { BsListStars } from "react-icons/bs";
 
 function Menu() {
+	const location = useLocation();
+
 	return (
 		<Wrapper>
 			<List>
-				<Item>
-          <Link to="/">
-            <BiHome />
-            <span>Home</span>
-          </Link>
+				<Item path="/" location={location}>
+					<Link to="/">
+						<BiHome />
+						<span>Home</span>
+					</Link>
 				</Item>
-				<Item>
-          <Link to="/">
-            <BsListStars />
-            <span>Lists</span>
-          </Link>
+				<Item path="/lists" location={location}>
+					<Link to="/">
+						<BsListStars />
+						<span>Lists</span>
+					</Link>
 				</Item>
-				<Item>
-          <Link to="/">
-            <BiUserCircle />
-            <span>Account</span>
-          </Link>
+				<Item path="/account" location={location}>
+					<Link to="/">
+						<BiUserCircle />
+						<span>Account</span>
+					</Link>
 				</Item>
 			</List>
 			<LogoutBtn />
@@ -52,16 +54,18 @@ const Item = styled.li`
 	margin: 0;
 	padding: 16px;
 	border-bottom: 1px solid var(--color-primary-light);
-	background-color: hsla(0, 0%, 100%, 0.10);
+	background-color: ${props => props.path === props.location.pathname ? "hsla(0, 0%, 100%, 0.25)" : "hsla(0, 0%, 100%, 0.1)"};
 	cursor: pointer;
-  transition: all .3s;
+	transition: all 0.3s;
+
+  
 
 	&:hover {
 		background-color: hsla(0, 0%, 100%, 0.2);
 
-    & svg {
-      color: var(--color-primary-dark);
-    }
+		& svg {
+			color: var(--color-primary-dark);
+		}
 	}
 
 	& a {
@@ -73,15 +77,15 @@ const Item = styled.li`
 		align-items: center;
 
 		& span {
-      padding-top: 3px;
+			padding-top: 3px;
 		}
 	}
 
 	& svg {
 		font-size: 1.5rem;
 		margin-right: 16px;
-    color: var(--color-primary);
-    transition: all .3s;
+		color: ${props => props.path === props.location.pathname ? "var(--color-primary-dark)" : "var(--color-primary)"};
+		transition: all 0.3s;
 	}
 `;
 
