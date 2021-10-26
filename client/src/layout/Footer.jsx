@@ -83,6 +83,7 @@ const Link = styled.a`
 			width: max-content;
 			padding: 6px;
 			border-radius: var(--rounded-small);
+			box-shadow: var(--shadow);
 		}
 	}
 `;

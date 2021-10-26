@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import LogoutBtn from "../components/LogoutBtn";
@@ -7,29 +7,56 @@ import { BsListStars } from "react-icons/bs";
 
 function Menu() {
 	const location = useLocation();
+	const [showListDropdown, setShowListDropdown] = useState(false);
+
+	useEffect(() => {
+		console.log(showListDropdown);
+	}, [showListDropdown]);
 
 	return (
 		<Wrapper>
 			<List>
-				<Item path="/" location={location}>
+				<Item
+					path="/"
+					location={location}
+					isActive={location.pathname === "/" ? true : false}>
 					<Link to="/">
 						<BiHome />
 						<span>Home</span>
 					</Link>
 				</Item>
 				<Item path="/lists" location={location}>
-					<Link to="/lists">
+					<a
+						onClick={() => {
+							console.log("Hello!!");
+							setShowListDropdown(!showListDropdown);
+						}}>
 						<BsListStars />
 						<span>Lists</span>
-					</Link>
+					</a>
 				</Item>
-				<Item path="/account" location={location}>
+				<List secondary={true} showListDropdown={showListDropdown}>
+					<Item>
+						<Link>Create New List</Link>
+					</Item>
+					<Item>
+						<Link>My Lists</Link>
+					</Item>
+					<Item>
+						<Link>Followed Lists</Link>
+					</Item>
+				</List>
+				<Item
+					path="/account"
+					location={location}
+					isActive={location.pathname === "/account" ? true : false}>
 					<Link to="/account">
 						<BiUserCircle />
 						<span>Account</span>
 					</Link>
 				</Item>
 			</List>
+			<p>Hello!</p>
 			<LogoutBtn />
 		</Wrapper>
 	);
@@ -48,15 +75,23 @@ const List = styled.ul`
 	margin: 0;
 	list-style-type: none;
 	width: 100%;
+	transition: all 0.5s;
+	transform-origin: top;
+	max-height: ${(props) =>
+		props.secondary && !props.showListDropdown ? "0" : "auto"};
+	& li {
+		max-height: ${(props) =>
+			props.secondary && !props.showListDropdown ? "0" : "auto"};
+	}
+	/* opacity: ${(props) =>
+		props.secondary && !props.showListDropdown ? "0" : "1"}; */
 `;
 
 const Item = styled.li`
 	margin: 0;
 	border-bottom: 1px solid var(--color-primary-light);
 	background-color: ${(props) =>
-		props.path === props.location.pathname
-			? "hsla(0, 0%, 100%, 0.25)"
-			: "hsla(0, 0%, 100%, 0.1)"};
+		props.isActive ? "hsla(0, 0%, 100%, 0.25)" : "hsla(0, 0%, 100%, 0.1)"};
 	cursor: pointer;
 	transition: all 0.3s;
 
@@ -86,9 +121,7 @@ const Item = styled.li`
 		font-size: 1.5rem;
 		margin-right: 16px;
 		color: ${(props) =>
-			props.path === props.location.pathname
-				? "var(--color-primary-dark)"
-				: "var(--color-primary)"};
+			props.isActive ? "var(--color-primary-dark)" : "var(--color-primary)"};
 		transition: all 0.3s;
 	}
 `;
