@@ -27,8 +27,8 @@ const ButtonElem = styled.button`
 	&:focus,
 	&:active {
 		border: 3px solid var(--color-primary-dark);
-    background-color: var(--color-primary);
-    outline: none;
+		background-color: var(--color-primary);
+		outline: none;
 	}
 `;
 
