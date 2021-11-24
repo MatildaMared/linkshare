@@ -1,45 +1,47 @@
 import React from "react";
 import styled from "styled-components";
-import { BsLinkedin, BsGithub } from "react-icons/bs";
-import { FiMail } from "react-icons/fi";
 
 function Footer() {
 	return (
 		<Wrapper>
-			<Copyright>
-				Made with 🤍 by <strong>Matilda Mared</strong> 2021
-			</Copyright>
-			<nav>
-				<List>
-					<Item>
-						<Link
-							text="Find me on LinkedIn 😛"
-							href="https://www.linkedin.com/in/matilda-mared/"
-							target="_blank">
-							<BsLinkedin />
-						</Link>
-					</Item>
-					<Item>
-						<Link
-							text="Look at my code on GitHub 👩‍💻"
-							href="https://github.com/MatildaMared" target="_blank">
-							<BsGithub />
-						</Link>
-					</Item>
-					<Item>
-						<Link text="Send me an e-mail 😊" href="mailto:matildamared@live.se">
-							<FiMail />
-						</Link>
-					</Item>
-				</List>
-			</nav>
+			<Content>
+				<Copyright>
+					Made with 🤍 by <strong>Matilda Mared</strong> 2021
+				</Copyright>
+				<nav>
+					<List>
+						<Item>
+							<Link
+								href="https://www.linkedin.com/in/matilda-mared/"
+								target="_blank"
+							>
+								LinkedIn
+							</Link>
+						</Item>
+						<Item>
+							<Link href="https://github.com/MatildaMared" target="_blank">
+								GitHub
+							</Link>
+						</Item>
+						<Item>
+							<Link href="mailto:matildamared@live.se">E-mail</Link>
+						</Item>
+					</List>
+				</nav>
+			</Content>
 		</Wrapper>
 	);
 }
 
 const Wrapper = styled.footer`
-	padding: 16px 8px;
+	border-top: 1px solid hsla(0, 0%, 100%, 0.1);
+	padding: 1rem .5rem;
 	text-align: center;
+`;
+
+const Content = styled.div`
+	max-width: var(--max-width);
+	margin: 0 auto;
 `;
 
 const Copyright = styled.p`
@@ -63,28 +65,15 @@ const Item = styled.li`
 `;
 
 const Link = styled.a`
-	font-size: 1.8rem;
+	font-size: 1rem;
 	cursor: pointer;
-	color: var(--color-primary-dark);
-	transition: all .3s;
-	position: relative;
+	color: var(--color-text);
+	transition: all 0.3s;
+	text-decoration: none;
 
 	&:hover {
 		color: var(--color-dark);
-
-		&::after {
-			z-index: 2;
-			font-size: .9rem;
-			content: "${(props) => props.text}";
-			background-color: var(--color-primary-light);
-			position: absolute;
-			top: -75%;
-			left: 0%;
-			width: max-content;
-			padding: 6px;
-			border-radius: var(--rounded-small);
-			box-shadow: var(--shadow);
-		}
+		text-decoration: underline;
 	}
 `;
 

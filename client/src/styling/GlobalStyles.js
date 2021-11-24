@@ -6,11 +6,11 @@ export default createGlobalStyle`
 html {
   font-family: var(--font-primary);
   font-weight: 300;
-  color: var(--color-black);
+  color: var(--color-text);
 }
 
 body {
-  background: var(--gradient-bottom-right);
+  background: var(--color-background);
 }
 
 /* Box sizing rules */
@@ -34,8 +34,9 @@ dd {
   margin: 0;
 }
 
-h1, h2 {
-    font-weight: 800;
+h1, h2, h3, h4, h5 h6 {
+  font-family: var(--font-secondary);
+  font-weight: 900;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */

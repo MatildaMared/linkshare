@@ -7,8 +7,8 @@ function LoginPage() {
 	const [activeComponent, setActiveComponent] = useState("login");
 
 	return (
-    <Wrapper>
-      <Heading>Linkshare.</Heading>
+		<Wrapper>
+			<Heading>Linkshare.</Heading>
 			{activeComponent === "login" ? (
 				<>
 					<LoginForm />
@@ -17,7 +17,8 @@ function LoginPage() {
 						<Link
 							onClick={() => {
 								setActiveComponent("signup");
-							}}>
+							}}
+						>
 							Click here
 						</Link>{" "}
 						to sign up!
@@ -31,7 +32,8 @@ function LoginPage() {
 						<Link
 							onClick={() => {
 								setActiveComponent("login");
-							}}>
+							}}
+						>
 							Click here
 						</Link>{" "}
 						to log in!
@@ -44,24 +46,18 @@ function LoginPage() {
 
 const Text = styled.p`
 	margin: 0 auto;
-  font-size: var(--font-size-small);
+	font-size: var(--font-size-small);
 	margin-top: 8px;
 	max-width: 200px;
 	text-align: center;
 `;
 
 const Heading = styled.h1`
-	font-size: 5.063rem;
+	font-family: var(--font-secondary);
+	font-weight: 900;
+	font-size: 3.5rem;
 	margin-bottom: 16px;
 	text-align: center;
-	background-color: var(--color-primary-dark);
-	background-image: linear-gradient(to right bottom, var(--color-dark), var(--color-primary-dark), var(--color-primary));
-	background-size: 100%;
-  background-clip: text;
-	-webkit-background-clip: text;
-	-moz-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	-moz-text-fill-color: transparent;
 `;
 
 const Link = styled.a`
@@ -73,7 +69,7 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.main`
-  margin-top: 100px;
-`
+	margin-top: 100px;
+`;
 
 export default LoginPage;
