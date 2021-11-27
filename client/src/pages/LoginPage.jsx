@@ -8,7 +8,6 @@ function LoginPage() {
 
 	return (
 		<Wrapper>
-			<Heading>Linkshare.</Heading>
 			{activeComponent === "login" ? (
 				<>
 					<LoginForm />
@@ -52,14 +51,6 @@ const Text = styled.p`
 	text-align: center;
 `;
 
-const Heading = styled.h1`
-	font-family: var(--font-secondary);
-	font-weight: 900;
-	font-size: 3.5rem;
-	margin-bottom: 16px;
-	text-align: center;
-`;
-
 const Link = styled.a`
 	cursor: pointer;
 
@@ -69,7 +60,8 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.main`
-	margin-top: 100px;
+	padding-top: 100px;
+	margin: 0 auto;
 `;
 
 export default LoginPage;

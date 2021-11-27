@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 :root {
-  --max-width: 800px;
+  --max-width: 1200px;
 
   --font-primary: "Inter", sans-serif;
   --font-secondary: "Inter", sans-serif;

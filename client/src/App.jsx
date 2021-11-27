@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import Header from "./layout/Header";
@@ -10,6 +10,7 @@ import { UserProvider } from "./context/UserContext";
 import PrivateRoute from "./routing/PrivateRoute";
 import ListsPage from "./pages/ListsPage";
 import AccountPage from "./pages/AccountPage";
+// import Menu from "./layout/Menu";
 
 function App() {
 	return (
@@ -18,25 +19,34 @@ function App() {
 				<Header />
 				<UserProvider>
 					<Content>
-						<Switch>
-							<PrivateRoute
-								exact
+						{/* <Menu /> */}
+						<Routes>
+							<Route
 								path="/"
-								component={HomePage}
-								layout={Layout}
+								element={
+									<PrivateRoute>
+										<HomePage />
+									</PrivateRoute>
+								}
 							/>
-							<PrivateRoute
+							<Route
 								path="/lists"
-								component={ListsPage}
-								layout={Layout}
+								element={
+									<PrivateRoute>
+										<ListsPage />
+									</PrivateRoute>
+								}
 							/>
-							<PrivateRoute
+							<Route
 								path="/account"
-								component={AccountPage}
-								layout={Layout}
-							/>
-							<Route path="/login" component={LoginPage} />
-						</Switch>
+								element={
+									<PrivateRoute>
+										<AccountPage />
+									</PrivateRoute>
+								}
+							></Route>
+							<Route path="/login" element={<LoginPage />} />
+						</Routes>
 					</Content>
 				</UserProvider>
 				<Footer />
@@ -47,6 +57,7 @@ function App() {
 
 const Content = styled.div`
 	max-width: var(--max-width);
+	width: 100%;
 	margin: 0 auto;
 `;
 
