@@ -25,7 +25,7 @@ function App() {
 								path="/"
 								element={
 									<PrivateRoute>
-										<HomePage />
+										<Layout component={HomePage} />
 									</PrivateRoute>
 								}
 							/>
@@ -33,7 +33,7 @@ function App() {
 								path="/lists"
 								element={
 									<PrivateRoute>
-										<ListsPage />
+										<Layout component={ListsPage} />
 									</PrivateRoute>
 								}
 							/>
@@ -41,7 +41,7 @@ function App() {
 								path="/account"
 								element={
 									<PrivateRoute>
-										<AccountPage />
+										<Layout component={AccountPage} />
 									</PrivateRoute>
 								}
 							></Route>

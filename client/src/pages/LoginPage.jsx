@@ -60,7 +60,11 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.main`
-	padding-top: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 100%;
 	margin: 0 auto;
 `;
 
