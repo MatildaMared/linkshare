@@ -24,6 +24,6 @@ const Content = styled.div`
 const Wrapper = styled.header`
 	border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
 	padding: 0 1rem;
-`;g
+`;
 
 export default Header;
