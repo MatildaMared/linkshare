@@ -6,6 +6,7 @@ import Layout from "../layout/Layout";
 
 function PrivateRoute({ children }) {
 	const [userContext, updateUserContext] = useContext(UserContext);
+	console.log(userContext);
 	return localStorage.getItem("token") &&
 		userContext.isAuthenticated === true &&
 		userContext.isLoading === false

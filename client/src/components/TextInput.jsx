@@ -5,7 +5,6 @@ const TextInput = React.forwardRef((props, ref) => {
 	const { name, label, type, value, onChange } = props;
 	return (
 		<Wrapper>
-			<Label htmlFor={name}>{label}</Label>
 			<Input
 				ref={ref}
 				type={type}
@@ -13,6 +12,7 @@ const TextInput = React.forwardRef((props, ref) => {
 				value={value}
 				onChange={(e) => onChange(e.target.value)}
 			/>
+			<Label htmlFor={name}>{label}</Label>
 		</Wrapper>
 	);
 });
@@ -20,27 +20,51 @@ const TextInput = React.forwardRef((props, ref) => {
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 8px;
+	margin-bottom: 2rem;
+	position: relative;
+
+	&:last-of-type {
+		margin-bottom: 1rem;
+	}
 `;
 
 const Input = styled.input`
 	border-radius: 8px;
 	padding: 8px 16px;
 	border: none;
-	background-color: hsla(0deg 0% 100% / 0.3);
-	border: 2px solid transparent;
+	border: 2px solid var(--color-text);
+	font-size: 1rem;
+	color: var(--color-text);
+	background: transparent;
+	transition: border-color 0.3s;
 
-	&:active,
+	&:hover,
 	&:focus {
-		background-color: hsla(0deg 0% 100% / 0.7);
-		outline: none;
-		border: 2px solid var(--color-primary);
+		border-color: var(--color-primary);
+		& ~ label {
+			color: var(--color-primary);
+		}
+	}
+	&:focus {
+		outline: var(--outline);
+		outline-offset: var(--outline-offset);
+		& ~ label {
+			transform: translateY(-2px);
+		}
 	}
 `;
 
 const Label = styled.label`
+	font-family: var(--font-secondary);
 	font-size: var(--font-size-small);
-	margin-bottom: 4px;
+	position: absolute;
+	left: 16px;
+	top: -10px;
+	background-color: var(--color-background);
+	text-transform: uppercase;
+	padding: 0 6px;
+	letter-spacing: 1px;
+	transition: transform 0.3s, color 0.3s;
 `;
 
 export default TextInput;

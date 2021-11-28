@@ -1,9 +1,13 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useContext } from "react";
+import { useNavigate } from "react-router";
 import TextInput from "./TextInput";
 import styled from "styled-components";
 import Button from "./Button";
+import { signup, comparePasswords } from "../services/authService";
+import { UserContext } from "../context/UserContext";
 
 function SignupForm() {
+	const [userContext, updateUserContext] = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -13,19 +17,53 @@ function SignupForm() {
 	const passwordConfirmRef = createRef();
 	const firstNameRef = createRef();
 	const [errorMessage, setErrorMessage] = useState("");
+	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		console.log("Submitted!");
 		e.preventDefault();
+		console.log(firstName);
 		console.log(email);
 		console.log(password);
 
-		console.log(emailRef.current);
-
 		setEmail("");
 		setPassword("");
+		setPasswordConfirm("");
 		emailRef.current.blur();
 		passwordRef.current.blur();
+		passwordConfirmRef.current.blur();
+
+		const passwordsMatch = comparePasswords(password, passwordConfirm);
+
+		if (!passwordsMatch) {
+			setErrorMessage("Passwords must match...");
+		}
+
+		if (passwordsMatch) {
+			const data = await signup({
+				firstName: firstName,
+				email: email,
+				password: password,
+			});
+
+			console.log(data);
+
+			if (!data.success) {
+				setErrorMessage(data.error);
+				return;
+			}
+
+			localStorage.clear();
+			localStorage.setItem("token", data.token);
+
+			updateUserContext({
+				user: data.user,
+				isAuthenticated: true,
+				isLoading: false,
+			});
+
+			navigate("/");
+		}
 	};
 
 	return (
@@ -63,21 +101,17 @@ function SignupForm() {
 				onChange={setPasswordConfirm}
 				ref={passwordConfirmRef}
 			/>
-			<ErrorMessage>{errorMessage}</ErrorMessage>
-			<Button type="submit">Log In</Button>
+			{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+			<Button type="submit">Sign Up</Button>
 		</Form>
 	);
 }
 
 const Form = styled.form`
-	padding: 32px;
 	display: flex;
 	flex-direction: column;
-	width: auto;
-	max-width: 400px;
+	width: 100%;
 	margin: 0 auto;
-	background-color: rgba(255, 255, 255, 0.4);
-	border-radius: var(--rounded-large);
 
 	& button {
 		margin: 0 auto;
@@ -85,14 +119,15 @@ const Form = styled.form`
 `;
 
 const Heading = styled.h1`
-	color: var(--color-primary-dark);
-	margin-bottom: 8px;
+	margin-bottom: 1rem;
 	text-align: center;
 `;
 
 const ErrorMessage = styled.p`
-	font-size: var(--font-size-small);
-	margin-bottom: 8px;
+	text-align: center;
+	max-width: 250px;
+	margin: 0 auto;
+	margin-bottom: 1rem;
 `;
 
 export default SignupForm;

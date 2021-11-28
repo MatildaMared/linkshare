@@ -45,7 +45,6 @@ function LoginPage() {
 
 const Text = styled.p`
 	margin: 0 auto;
-	font-size: var(--font-size-small);
 	margin-top: 8px;
 	max-width: 200px;
 	text-align: center;
@@ -53,9 +52,11 @@ const Text = styled.p`
 
 const Link = styled.a`
 	cursor: pointer;
+	color: var(--color-primary);
+	transition: all 0.3s;
 
 	&:hover {
-		color: pink;
+		color: var(--color-text);
 	}
 `;
 
@@ -64,8 +65,10 @@ const Wrapper = styled.main`
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	height: 100%;
+	width: 100%;
+	max-width: 350px;
 	margin: 0 auto;
+	padding-top: 100px;
 `;
 
 export default LoginPage;

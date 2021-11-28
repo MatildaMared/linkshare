@@ -24,6 +24,7 @@ async function signup(req, res, next) {
 				token: user.getToken(),
 				firstName: user.firstName,
 				email: user.email,
+				lists: user.lists,
 			},
 		});
 	} catch (err) {

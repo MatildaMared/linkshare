@@ -35,16 +35,15 @@ function LoginForm() {
 			if (data.success) {
 				localStorage.clear();
 				localStorage.setItem("token", data.token);
-				console.log(data.user);
 				updateUserContext({
 					user: data.user,
 					isAuthenticated: true,
+					isLoading: false,
 				});
 				if (location.pathname === "/login") {
 					navigate("/");
 				}
 			} else {
-				setShow(true);
 				setErrorMessage(data.error);
 			}
 		} catch (err) {
@@ -71,20 +70,17 @@ function LoginForm() {
 				onChange={setPassword}
 				ref={passwordRef}
 			/>
-			<ErrorMessage>{errorMessage}</ErrorMessage>
+			{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 			<Button type="submit">Log In</Button>
 		</Form>
 	);
 }
 
 const Form = styled.form`
-	padding: 32px;
 	display: flex;
 	flex-direction: column;
-	width: auto;
-	max-width: 350px;
+	width: 100%;
 	margin: 0 auto;
-	background-color: rgba(255, 255, 255, 0.4);
 	border-radius: var(--rounded-large);
 
 	& button {
@@ -93,15 +89,14 @@ const Form = styled.form`
 `;
 
 const Heading = styled.h1`
-	color: var(--color-primary-dark);
-	margin-bottom: 16px;
+	font-family: var(--font-secondary);
+	margin-bottom: 1rem;
 	text-align: center;
 `;
 
 const ErrorMessage = styled.p`
-	height: 20px;
-	font-size: var(--font-size-small);
-	margin-bottom: 8px;
+	text-align: center;
+	margin-bottom: 1rem;
 `;
 
 export default LoginForm;
