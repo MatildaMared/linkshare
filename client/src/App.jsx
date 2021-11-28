@@ -10,7 +10,6 @@ import { UserProvider } from "./context/UserContext";
 import PrivateRoute from "./routing/PrivateRoute";
 import ListsPage from "./pages/ListsPage";
 import AccountPage from "./pages/AccountPage";
-// import Menu from "./layout/Menu";
 
 function App() {
 	return (
@@ -19,7 +18,6 @@ function App() {
 				<Header />
 				<UserProvider>
 					<Content>
-						{/* <Menu /> */}
 						<Routes>
 							<Route
 								path="/"
