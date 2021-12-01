@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const privateRoutes = require("./routes/privateRoutes");
+const listRoutes = require("./routes/listRoutes");
 const { protectRoute } = require("./middleware/authMiddleware");
 const errorHandler = require("./middleware/errorHandler");
 const PORT = process.env.PORT || 8000;
@@ -25,13 +26,10 @@ app.get("/", (req, res) => {
 	res.send("Hello!");
 });
 
-// app.get("/private", (req, res) => {
-// 	res.send("Private!");
-// });
-
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/private", privateRoutes);
+app.use("/api/list", listRoutes);
 
 // Error Middleware
 app.use(errorHandler);

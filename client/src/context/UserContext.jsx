@@ -21,7 +21,6 @@ export const UserProvider = ({ children }) => {
 	}, []);
 
   async function setUserData() {
-    console.log("Inside setUser fn");
 		try {
 			const token = localStorage.getItem("token");
 

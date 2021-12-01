@@ -1,5 +1,25 @@
+const mongoose = require("mongoose");
 const List = require("../models/listModel");
 const ErrorResponse = require("../utilities/errorResponse");
+const jwt = require("jsonwebtoken");
+const User = require("./../models/userModel");
+
+async function getUserIdFromToken(token) {
+	let userId = null;
+	// tries to decode the JWT token
+	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+		// If there was an error trying to decode the JWT,
+		// return an error response
+		if (err) {
+			return null;
+		}
+
+		userId = decoded.id;
+	});
+	// If there was no error, return
+	// the id from the decoded JWT
+	return userId;
+}
 
 async function createList(req, res, next) {
 	try {
@@ -40,7 +60,7 @@ async function createList(req, res, next) {
 		// and user in the response
 		res.status(200).json({
 			success: true,
-			playlist,
+			list,
 			user: {
 				id: updatedUser._id,
 				firstName: updatedUser.firstName,
