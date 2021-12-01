@@ -6,9 +6,7 @@ const crypto = require("crypto");
 
 async function signup(req, res, next) {
 	try {
-		console.log("Inside signup!");
 		const { firstName, email, password } = req.body;
-		console.log(firstName, email, password);
 		const user = await User.create({
 			_id: new mongoose.Types.ObjectId(),
 			firstName,
