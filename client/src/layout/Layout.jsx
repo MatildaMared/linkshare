@@ -14,6 +14,7 @@ function Layout({ component: Component }) {
 }
 
 const Wrapper = styled.div`
+	height: 100%;
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-gap: 1rem;
