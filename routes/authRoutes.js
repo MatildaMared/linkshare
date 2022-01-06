@@ -14,7 +14,5 @@ router.post("/forgotpassword", authController.forgotPassword);
 // Change password
 router.put("/resetpassword/:resetToken", authController.resetPassword);
 
-// Get access to private route
-router.get("/private");
 
 module.exports = router;

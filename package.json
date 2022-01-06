@@ -4,7 +4,7 @@
 	"description": "An app for storing/sharing link collections",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon nindex.js"
+		"start": "node index.js"
 	},
 	"author": "Matilda Mared",
 	"license": "ISC",
