@@ -4,31 +4,31 @@ const ErrorResponse = require("../utilities/errorResponse");
 const sendMail = require("../utilities/sendMail");
 const crypto = require("crypto");
 
-async function signup(req, res, next) {
-	try {
-		const { firstName, email, password } = req.body;
-		const user = await User.create({
-			_id: new mongoose.Types.ObjectId(),
-			firstName,
-			email,
-			password,
-		});
-		console.log(user);
+// async function signup(req, res, next) {
+// 	try {
+// 		const { firstName, email, password } = req.body;
+// 		const user = await User.create({
+// 			_id: new mongoose.Types.ObjectId(),
+// 			firstName,
+// 			email,
+// 			password,
+// 		});
+// 		console.log(user);
 
-		res.status(200).json({
-			success: true,
-			user: {
-				_id: user._id,
-				token: user.getToken(),
-				firstName: user.firstName,
-				email: user.email,
-				lists: user.lists,
-			},
-		});
-	} catch (err) {
-		next(err);
-	}
-}
+// 		res.status(200).json({
+// 			success: true,
+// 			user: {
+// 				_id: user._id,
+// 				token: user.getToken(),
+// 				firstName: user.firstName,
+// 				email: user.email,
+// 				lists: user.lists,
+// 			},
+// 		});
+// 	} catch (err) {
+// 		next(err);
+// 	}
+// }
 
 async function login(req, res, next) {
 	try {
@@ -140,4 +140,4 @@ async function resetPassword(req, res, next) {
 	}
 }
 
-module.exports = { signup, login, forgotPassword, resetPassword };
+module.exports = { login, forgotPassword, resetPassword };

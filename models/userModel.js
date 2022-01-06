@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	firstName: {
 		type: String,
+		required: [true, "Please enter a first name..."],
 	},
 	email: {
 		type: String,
@@ -71,6 +72,15 @@ userSchema.methods.getPasswordResetToken = function () {
 
 	return resetToken;
 };
+
+userSchema.set("toJSON", {
+	transform: (document, returnedObject) => {
+		returnedObject.id = returnedObject._id.toString();
+		delete returnedObject._id;
+		delete returnedObject.__v;
+		delete returnedObject.password;
+	},
+});
 
 const User = mongoose.model("User", userSchema);
 

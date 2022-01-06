@@ -1,6 +1,29 @@
 const jwt = require("jsonwebtoken");
-const ErrorResponse = require("./../utilities/errorResponse");
+const ErrorResponse = require("../utilities/errorResponse");
 const User = require("../models/userModel");
+const mongoose = require("mongoose");
+
+async function createUser(req, res, next) {
+	try {
+		const { firstName, email, password } = req.body;
+
+		const user = await User.create({
+			_id: new mongoose.Types.ObjectId(),
+			firstName,
+			email,
+			password,
+		});
+
+		res.status(200).json({
+			success: true,
+			user: user,
+			token: user.getToken(),
+		});
+	} catch (err) {
+		console.log(err);
+		next(err);
+	}
+}
 
 async function getUser(req, res, next) {
 	try {
@@ -35,4 +58,4 @@ async function getUser(req, res, next) {
 	}
 }
 
-module.exports = { getUser };
+module.exports = { getUser, createUser };

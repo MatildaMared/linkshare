@@ -1,11 +1,12 @@
 require("dotenv").config();
+const config = require("./utilities/config");
 const path = require("path");
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const listRoutes = require("./routes/listRoutes");
+const usersRoutes = require("./routes/usersRoutes");
+const listsRoutes = require("./routes/listsRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const PORT = process.env.PORT || 8000;
 
@@ -24,8 +25,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/list", listRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/lists", listsRoutes);
 
 // Error Middleware
 app.use(errorHandler);
@@ -37,18 +38,17 @@ app.listen(PORT, () => {
 });
 
 mongoose
-	.connect(
-		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xxuvj.mongodb.net/linkshare`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
-			useFindAndModify: true,
-		}
-	)
+	.connect(config.MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: true,
+	})
 	.then(() => {
 		console.log("Connected to database... 📝");
 	})
 	.catch((err) => {
 		console.log("There was an error connecting to database: ", err);
 	});
+
+module.exports = app;

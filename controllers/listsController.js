@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const List = require("../models/listModel");
 const ErrorResponse = require("../utilities/errorResponse");
 const jwt = require("jsonwebtoken");
-const User = require("./../models/userModel");
+const User = require("../models/userModel");
 
 async function getUserIdFromToken(token) {
 	let userId = null;
