@@ -7,6 +7,7 @@ const List = require("../models/listModel");
 
 beforeAll(async () => {
 	await User.deleteMany({});
+	await List.deleteMany({});
 
 	const user = {
 		firstName: "Matilda",
@@ -32,10 +33,9 @@ describe("Creating a new list", () => {
 			.expect("Content-Type", /application\/json/);
 
 		token = loggedInUser.body.token;
-		console.log(token);
 	});
 
-	test("is added correctly", async () => {
+	test("is added correctly when provided all neccessary information", async () => {
 		const newList = {
 			title: "My first list",
 			links: [
@@ -59,7 +59,6 @@ describe("Creating a new list", () => {
 			.expect(201)
 			.expect("Content-Type", /application\/json/);
 
-		console.log(response);
 
 		// const allBlogs = await api.get("/api/blogs");
 		// expect(allBlogs.body).toHaveLength(initialBlogs.length + 1);
