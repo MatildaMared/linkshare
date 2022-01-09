@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 	res.send("Hello!");
 });
 
-app.use("/api/auth", authRoutes);
+app.use("/api", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/lists", listsRoutes);
 
@@ -33,9 +33,11 @@ app.use(errorHandler);
 
 // ### START SERVER AND CONNECT TO DB ###
 
-app.listen(PORT, () => {
-	console.log(`Server up and running on port ${PORT}... 💻`);
-});
+if (process.env.NODE_ENV !== "test") {
+	app.listen(PORT, () => {
+		console.log(`Server up and running on port ${PORT}... 💻`);
+	});
+}
 
 mongoose
 	.connect(config.MONGODB_URI, {

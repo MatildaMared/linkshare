@@ -32,6 +32,7 @@ const crypto = require("crypto");
 
 async function login(req, res, next) {
 	try {
+		console.log("Will try to login");
 		const { email, password } = req.body;
 
 		console.log("Email: ", email, "Password: ", password);

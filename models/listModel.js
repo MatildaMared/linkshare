@@ -8,8 +8,9 @@ const listSchema = new mongoose.Schema({
 	},
 	links: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Link",
+			title: String,
+			url: String,
+			description: String,
 		},
 	],
 });
