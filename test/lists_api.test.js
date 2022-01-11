@@ -82,6 +82,32 @@ describe("Creating a new list", () => {
 
 		expect(response.body.error).toBe("Please enter a list title");
 	});
+
+	it("fails when authentication token is missing", async () => {
+		const newList = {
+			title: "My first list",
+			links: [
+				{
+					title: "A link",
+					url: "http://link.com",
+					description: "This is a very funny link",
+				},
+				{
+					title: "Another link",
+					url: "http://link.com",
+					description: "This is a super cool link",
+				},
+			],
+		};
+
+		const response = await await api
+			.post("/api/lists")
+			.send(newList)
+			.expect(400)
+			.expect("Content-Type", /application\/json/);
+
+		expect(response.body.error).toBe("Token missing");
+	});
 });
 
 afterAll(async () => {

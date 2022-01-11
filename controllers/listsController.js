@@ -26,14 +26,18 @@ async function createList(req, res, next) {
 		const { title, links } = req.body;
 
 		// grabs the JWT token from the http request headers
-		const token = req.headers.authorization.split(" ")[1];
+		const token = req.headers.authorization?.split(" ")[1];
+
+		if (!token) {
+			return next(new ErrorResponse("Token missing", 400));
+		}
 
 		// gets userId based on decoded jwt
 		const userId = await getUserIdFromToken(token);
 
 		// Return error if jwt token could not be decoded
 		if (userId === null) {
-			return next(new ErrorResponse("Unauthorized", 400));
+			return next(new ErrorResponse("Unauthorized", 401));
 		}
 
 		// Finds user in database based on id in decoded JWT token
