@@ -5,7 +5,6 @@ const errorHandler = (err, req, res, next) => {
 	error.message = err.message;
 
 	if (err.code === 11000) {
-		console.log("Err is: ", err);
 		const message = "Email is already registered...";
 		error = new ErrorResponse(message, 400);
 	}
@@ -15,7 +14,7 @@ const errorHandler = (err, req, res, next) => {
 		error = new ErrorResponse(message, 400);
 	}
 
-	res.status(err.statusCode || 500).json({
+	res.status(error.statusCode || 500).json({
 		success: false,
 		error: error.message || "Server error...",
 	});

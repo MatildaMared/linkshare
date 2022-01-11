@@ -5,12 +5,18 @@ const listSchema = new mongoose.Schema({
 	createdAt: { type: Date, default: Date.now },
 	title: {
 		type: String,
-		required: [true, "Please enter a list title..."],
+		required: [true, "Please enter a list title"],
 	},
 	links: [
 		{
-			title: String,
-			url: String,
+			title: {
+				type: String,
+				required: [true, "All links needs to have a title"],
+			},
+			url: {
+				type: String,
+				required: [true, "All links need to have an url"],
+			},
 			description: String,
 		},
 	],

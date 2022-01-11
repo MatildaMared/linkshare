@@ -43,6 +43,5 @@ describe("Creating a new user", () => {
 });
 
 afterAll(async () => {
-	console.log("Will try to shut down");
 	await mongoose.connection.close();
 });

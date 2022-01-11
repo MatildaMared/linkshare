@@ -35,7 +35,7 @@ describe("Creating a new list", () => {
 		token = loggedInUser.body.token;
 	});
 
-	test("is added correctly when provided all neccessary information", async () => {
+	it("is added correctly when provided all neccessary information", async () => {
 		const newList = {
 			title: "My first list",
 			links: [
@@ -59,16 +59,31 @@ describe("Creating a new list", () => {
 			.expect(201)
 			.expect("Content-Type", /application\/json/);
 
+		expect(response.body.list.title).toBe(newList.title);
+	});
 
-		// const allBlogs = await api.get("/api/blogs");
-		// expect(allBlogs.body).toHaveLength(initialBlogs.length + 1);
+	it("fails with status code 400 if list title is missing", async () => {
+		const newList = {
+			links: [
+				{
+					title: "A link",
+					url: "http://link.com",
+					description: "This is a very funny link",
+				},
+			],
+		};
 
-		// const blogIds = allBlogs.body.map((blog) => blog.id);
-		// expect(blogIds).toContain(blogResponse.body.id);
+		const response = await await api
+			.post("/api/lists")
+			.send(newList)
+			.set("Authorization", `bearer ${token}`)
+			.expect(400)
+			.expect("Content-Type", /application\/json/);
+
+		expect(response.body.error).toBe("Please enter a list title");
 	});
 });
 
 afterAll(async () => {
-	console.log("Will try to shut down");
 	await mongoose.connection.close();
 });
