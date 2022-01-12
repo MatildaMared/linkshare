@@ -20,7 +20,6 @@ async function createUser(req, res, next) {
 			token: user.getToken(),
 		});
 	} catch (err) {
-		console.log(err);
 		next(err);
 	}
 }

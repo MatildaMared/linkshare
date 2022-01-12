@@ -8,22 +8,22 @@ const userSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	firstName: {
 		type: String,
-		required: [true, "Please enter a first name..."],
+		required: [true, "Please enter a first name"],
 	},
 	email: {
 		type: String,
 		lowercase: true,
-		required: [true, "Please enter an email..."],
-		unique: [true, "This email is already in use..."],
+		required: [true, "Please enter an email"],
+		unique: true,
 		match: [
 			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-			"Please enter a valid email address...",
+			"Please enter a valid email",
 		],
 	},
 	password: {
 		type: String,
-		required: [true, "Please enter a password..."],
-		minLength: [8, "Password needs to be at least 8 characters long..."],
+		required: [true, "Please enter a password"],
+		minLength: [8, "Password needs to be at least 8 characters long"],
 	},
 	lists: [
 		{
