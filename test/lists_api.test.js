@@ -5,11 +5,12 @@ const api = supertest(app);
 const User = require("../models/userModel");
 const List = require("../models/listModel");
 
+let token = "";
+let listId = "";
+
 beforeAll(async () => {
 	await User.deleteMany({});
 	await List.deleteMany({});
-
-	let token = "";
 
 	// Create a new user
 	const user = {
@@ -19,6 +20,36 @@ beforeAll(async () => {
 	};
 
 	await api.post("/api/users").send(user);
+
+	const dummyList = {
+		title: "Dummy List",
+		links: {
+			title: "Dummy link",
+			description: "This is just a dummy link",
+			url: "http://www.dummylink.com",
+		},
+	};
+
+	const credentials = {
+		email: "matildamared@live.se",
+		password: "test1234",
+	};
+
+	const loggedInUser = await api
+		.post("/api/login")
+		.send(credentials)
+		.expect("Content-Type", /application\/json/);
+
+	token = loggedInUser.body.token;
+
+	const result = await api
+		.post("/api/lists")
+		.send(dummyList)
+		.set("Authorization", `bearer ${token}`)
+		.expect(201)
+		.expect("Content-Type", /application\/json/);
+
+	listId = result.body.list._id;
 });
 
 beforeEach(async () => {
@@ -36,12 +67,15 @@ beforeEach(async () => {
 });
 
 describe("Fetching list data", () => {
-	// it("succeeds when provided a valid id", async () => {
-	// 	const list = await api
-	// 		.get("/api/lists")
-	// 		.expect(201)
-	// 		.expect("Content-Type", /application\/json/);
-	// });
+	it("succeeds when provided a valid id", async () => {
+		const response = await api
+			.get(`/api/lists/${listId}`)
+			.expect(200)
+			.expect("Content-Type", /application\/json/);
+
+		const listTitle = response.body.list.title;
+		expect(listTitle).toBe("Dummy List");
+	});
 });
 
 describe("Creating a new list", () => {

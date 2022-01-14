@@ -72,4 +72,22 @@ async function createList(req, res, next) {
 	}
 }
 
-module.exports = { createList };
+async function getListById(req, res, next) {
+	try {
+		// Get listId from params
+		const listId = req.params.listId;
+
+		// Find list in the database
+		const list = await List.findById(listId);
+
+		// Send list data back to user
+		res.status(200).json({
+			success: true,
+			list,
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
+module.exports = { createList, getListById };

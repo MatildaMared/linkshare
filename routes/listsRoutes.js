@@ -5,4 +5,7 @@ const router = new Router();
 // Create new list
 router.post("/", listController.createList);
 
+// Get list by id
+router.get("/:listId", listController.getListById);
+
 module.exports = router;
