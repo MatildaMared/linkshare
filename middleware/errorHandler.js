@@ -9,6 +9,10 @@ const errorHandler = (err, req, res, next) => {
 		error = new ErrorResponse(message, 400);
 	}
 
+	if (err.message.includes("Cast to ObjectId failed")) {
+		error = new ErrorResponse("Invalid ID", 400);
+	}
+
 	if (err.name === "ValidationError") {
 		const message = Object.values(err.errors).map((val) => val.message);
 		error = new ErrorResponse(message, 400);

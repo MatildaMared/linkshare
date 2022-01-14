@@ -78,7 +78,11 @@ async function getListById(req, res, next) {
 		const listId = req.params.listId;
 
 		// Find list in the database
-		const list = await List.findById(listId);
+		const list = await List.findOne({ _id: listId });
+
+		if (!list) {
+			return next(new ErrorResponse("Could not find a list with that ID", 400));
+		}
 
 		// Send list data back to user
 		res.status(200).json({

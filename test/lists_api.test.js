@@ -76,6 +76,17 @@ describe("Fetching list data", () => {
 		const listTitle = response.body.list.title;
 		expect(listTitle).toBe("Dummy List");
 	});
+
+	it("fails with status code 400 if ID is invalid", async () => {
+		const listId = "wrongId123";
+
+		const response = await api
+			.get(`/api/lists/${listId}`)
+			.expect(400)
+			.expect("Content-Type", /application\/json/);
+		
+		expect(response.body.error).toBe("Invalid ID")
+	});
 });
 
 describe("Creating a new list", () => {
