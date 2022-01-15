@@ -163,25 +163,57 @@ describe("Lists API", () => {
 	});
 
 	describe("Deleting a list", () => {
-		it("succeeds when provided a valid token and ID", async () => {
-			console.log("listId is: ", listId);
+		listToDeleteId = "";
+
+		beforeEach(async () => {
+			const listToDelete = {
+				title: "This list will be deleted",
+				links: [
+					{
+						title: "A link",
+						url: "http://link.com",
+						description: "This is a very funny link",
+					},
+				],
+			};
+
 			const response = await api
-				.delete(`/api/lists/${listId}`)
+				.post("/api/lists")
+				.send(listToDelete)
+				.set("Authorization", `bearer ${token}`)
+				.expect(201)
+				.expect("Content-Type", /application\/json/);
+
+			listToDeleteId = response.body.list._id;
+		});
+
+		it("succeeds when provided a valid token and ID", async () => {
+			const response = await api
+				.delete(`/api/lists/${listToDeleteId}`)
 				.set("Authorization", `bearer ${token}`)
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
 			const listIds = [...response.body.user.lists].map((list) => list._id);
-			expect(listIds).not.toContain(listId);
+			expect(listIds).not.toContain(listToDeleteId);
 
 			const deletedListResponse = await api
-				.get(`/api/lists/${listId}`)
+				.get(`/api/lists/${listToDeleteId}`)
 				.expect(404)
 				.expect("Content-Type", /application\/json/);
 
 			expect(deletedListResponse.body.error).toBe(
 				"Could not find a list with that ID"
 			);
+		});
+
+		it("fails with status code 400 if token is missing", async () => {
+			const response = await api
+				.delete(`/api/lists/${listToDeleteId}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Token missing");
 		});
 	});
 
