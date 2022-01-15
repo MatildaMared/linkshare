@@ -53,6 +53,43 @@ This app is using icons from https://feathericons.com/
 
 ---
 
+## API Routes
+
+### Users API
+
+#### Creating a new user
+
+Creating a new user is made by sending a POST request to ```/api/users```
+
+Requires an object in the request body with the following data:
+```
+{
+  firstName: "First name of user",
+  email: "email@email.com,
+  password: "password1234"
+}
+```
+The e-mail adress is validated and has to be unique and the password needs to contain at least 8 characters. 
+
+Response, if successful, will be looking like this:
+```
+    {
+      success: true,
+      user: {
+        lists: [],
+        _id: 'MongoDB ID',
+        firstName: 'First name of user',
+        email: 'email@email.com'
+      },
+      token: 'JWT token string'
+    }
+```
+
+The JWT token in the response needs to be stored by the frontend and sent along in Authorization header when making other requests to the API to authorize the user.
+
+---
+
+
 ## Author 👩‍💻
 
 **Matilda Mared**
