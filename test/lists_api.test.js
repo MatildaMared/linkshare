@@ -54,6 +54,8 @@ describe("Lists API", () => {
 	});
 
 	beforeEach(async () => {
+		jest.setTimeout(100000);
+
 		const credentials = {
 			email: "matildamared@live.se",
 			password: "test1234",
@@ -214,6 +216,33 @@ describe("Lists API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(response.body.error).toBe("Token missing");
+		});
+
+		it("fails with status code 400 if list ID is invalid", async () => {
+			listToDeleteId = "wrongId123";
+
+			const response = await api
+				.delete(`/api/lists/${listToDeleteId}`)
+				.set("Authorization", `bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Invalid ID");
+		});
+
+		it("fails if the list is already removed", async () => {
+			await api
+				.delete(`/api/lists/${listToDeleteId}`)
+				.set("Authorization", `bearer ${token}`)
+				.expect(200);
+
+			const response = await api
+				.delete(`/api/lists/${listToDeleteId}`)
+				.set("Authorization", `bearer ${token}`)
+				.expect(404)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Could not find a list with that ID");
 		});
 	});
 

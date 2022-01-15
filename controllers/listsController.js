@@ -94,47 +94,53 @@ async function getListById(req, res, next) {
 }
 
 async function deleteList(req, res, next) {
-	// Get listId from params
-	const listId = req.params.listId;
+	try {
+		// Get listId from params
+		const listId = req.params.listId;
 
-	// grabs the JWT token from the http request headers
-	const token = req.headers.authorization?.split(" ")[1];
+		// grabs the JWT token from the http request headers
+		const token = req.headers.authorization?.split(" ")[1];
 
-	if (!token) {
-		return next(new ErrorResponse("Token missing", 400));
-	}
-
-	// gets userId based on decoded jwt
-	const userId = await getUserIdFromToken(token);
-
-	// Return error if jwt token could not be decoded
-	if (userId === null) {
-		return next(new ErrorResponse("Unauthorized", 401));
-	}
-
-	// Finds user in database based on id in decoded JWT token
-	const user = await User.findById(userId).populate("lists");
-
-	if (user) {
-		// Find and delete list in the database
-		const list = await List.findByIdAndDelete(listId);
-
-		if (!list) {
-			return next(new ErrorResponse("Could not find a list with that ID", 404));
+		if (!token) {
+			return next(new ErrorResponse("Token missing", 400));
 		}
+
+		// gets userId based on decoded jwt
+		const userId = await getUserIdFromToken(token);
+
+		// Return error if jwt token could not be decoded
+		if (userId === null) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		// Finds user in database based on id in decoded JWT token
+		const user = await User.findById(userId).populate("lists");
+
+		if (user) {
+			// Find and delete list in the database
+			const list = await List.findByIdAndDelete(listId);
+
+			if (!list) {
+				return next(
+					new ErrorResponse("Could not find a list with that ID", 404)
+				);
+			}
+		}
+
+		// Remove list id from user lists array
+		user.lists = user.lists.filter((list) => list._id.toString() !== listId);
+
+		// Save changes in user to database
+		await user.save();
+
+		// Send success response and user data back to user
+		res.status(200).json({
+			success: true,
+			user,
+		});
+	} catch (err) {
+		next(err);
 	}
-
-	// Remove list id from user lists array
-	user.lists = user.lists.filter((list) => list._id.toString() !== listId);
-
-	// Save changes in user to database
-	await user.save();
-
-	// Send success response and user data back to user
-	res.status(200).json({
-		success: true,
-		user,
-	});
 }
 
 module.exports = { createList, getListById, deleteList };
