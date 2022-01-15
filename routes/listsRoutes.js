@@ -8,4 +8,7 @@ router.post("/", listController.createList);
 // Get list by id
 router.get("/:listId", listController.getListById);
 
+// Delete list
+router.delete("/:listId", listController.deleteList);
+
 module.exports = router;
