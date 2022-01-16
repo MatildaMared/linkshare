@@ -7,8 +7,10 @@ const listSchema = new mongoose.Schema({
 		type: String,
 		required: [true, "Please enter a list title"],
 	},
+	createdAt: { type: Date, default: Date.now },
 	links: [
 		{
+			_id: mongoose.Schema.Types.ObjectId,
 			title: {
 				type: String,
 				required: [true, "All links needs to have a title"],

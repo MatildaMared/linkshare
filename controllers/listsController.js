@@ -143,4 +143,57 @@ async function deleteList(req, res, next) {
 	}
 }
 
-module.exports = { createList, getListById, deleteList };
+async function updateList(req, res, next) {
+	try {
+		const { title } = req.body;
+
+		// Get listId from params
+		const listId = req.params.listId;
+
+		// grabs the JWT token from the http request headers
+		const token = req.headers.authorization?.split(" ")[1];
+
+		if (!token) {
+			return next(new ErrorResponse("Token missing", 400));
+		}
+
+		// gets userId based on decoded jwt
+		const userId = await getUserIdFromToken(token);
+
+		// Return error if jwt token could not be decoded
+		if (userId === null) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		// Finds user in database based on id in decoded JWT token
+		const user = await User.findById(userId).populate("lists");
+
+		if (user) {
+			// Find and delete list in the database
+			const list = await List.findByIdAndUpdate(listId, {
+				title: title,
+			});
+
+			if (!list) {
+				return next(
+					new ErrorResponse("Could not find a list with that ID", 404)
+				);
+			}
+		}
+
+		const updatedList = await List.findById(listId);
+		const updatedUser = await User.findById(userId).populate("lists");
+
+		// Send success response and user data back to user
+		res.status(200).json({
+			success: true,
+			updatedList: updatedList,
+			user: updatedUser,
+		});
+	} catch (err) {
+		console.log(err);
+		next(err);
+	}
+}
+
+module.exports = { createList, getListById, deleteList, updateList };

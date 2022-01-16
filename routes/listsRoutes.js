@@ -11,4 +11,7 @@ router.get("/:listId", listController.getListById);
 // Delete list
 router.delete("/:listId", listController.deleteList);
 
+// Update list
+router.put("/:listId", listController.updateList);
+
 module.exports = router;

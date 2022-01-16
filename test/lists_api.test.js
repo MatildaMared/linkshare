@@ -24,11 +24,6 @@ describe("Lists API", () => {
 
 		const dummyList = {
 			title: "Dummy List",
-			links: {
-				title: "Dummy link",
-				description: "This is just a dummy link",
-				url: "http://www.dummylink.com",
-			},
 		};
 
 		const credentials = {
@@ -95,18 +90,6 @@ describe("Lists API", () => {
 	describe("Creating a new list", () => {
 		let newList = {
 			title: "My first list",
-			links: [
-				{
-					title: "A link",
-					url: "http://link.com",
-					description: "This is a very funny link",
-				},
-				{
-					title: "Another link",
-					url: "http://link.com",
-					description: "This is a super cool link",
-				},
-			],
 		};
 
 		it("succeeds when provided all neccessary information", async () => {
@@ -121,15 +104,7 @@ describe("Lists API", () => {
 		});
 
 		it("fails with status code 400 if list title is missing", async () => {
-			newList = {
-				links: [
-					{
-						title: "A link",
-						url: "http://link.com",
-						description: "This is a very funny link",
-					},
-				],
-			};
+			newList = {};
 
 			const response = await api
 				.post("/api/lists")
@@ -170,13 +145,6 @@ describe("Lists API", () => {
 		beforeEach(async () => {
 			const listToDelete = {
 				title: "This list will be deleted",
-				links: [
-					{
-						title: "A link",
-						url: "http://link.com",
-						description: "This is a very funny link",
-					},
-				],
 			};
 
 			const response = await api
@@ -230,7 +198,7 @@ describe("Lists API", () => {
 			expect(response.body.error).toBe("Invalid ID");
 		});
 
-		it("fails if the list is already removed", async () => {
+		it("fails with status code 404 if the list is already deleted", async () => {
 			await api
 				.delete(`/api/lists/${listToDeleteId}`)
 				.set("Authorization", `bearer ${token}`)
@@ -243,6 +211,23 @@ describe("Lists API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(response.body.error).toBe("Could not find a list with that ID");
+		});
+	});
+
+	describe("Updating a list", () => {
+		it("succeeds when provided a valid token and ID", async () => {
+			const updatedList = {
+				title: "I am updated",
+			};
+
+			const response = await api
+				.put(`/api/lists/${listId}`)
+				.send(updatedList)
+				.set("Authorization", `bearer ${token}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			console.log(response.body.user.lists[3]);
 		});
 	});
 
