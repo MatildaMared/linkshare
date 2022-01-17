@@ -12,11 +12,11 @@ const listSchema = new mongoose.Schema({
 		{
 			title: {
 				type: String,
-				required: [true, "All links needs to have a title"],
+				required: [true, "Links need to have a title"],
 			},
 			url: {
 				type: String,
-				required: [true, "All links need to have an url"],
+				required: [true, "Links need to have an url"],
 			},
 			description: String,
 		},

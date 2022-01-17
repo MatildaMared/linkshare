@@ -21,16 +21,21 @@ async function getUserIdFromToken(token) {
 	return userId;
 }
 
+// Gets token from http request headers
+function getToken(req, res, next) {
+	const token = req.headers.authorization?.split(" ")[1];
+	if (!token) {
+		return next(new ErrorResponse("Token missing", 400));
+	}
+	return token;
+}
+
 async function createList(req, res, next) {
 	try {
 		const { title, links } = req.body;
 
 		// grabs the JWT token from the http request headers
-		const token = req.headers.authorization?.split(" ")[1];
-
-		if (!token) {
-			return next(new ErrorResponse("Token missing", 400));
-		}
+		const token = getToken(req, res, next);
 
 		// gets userId based on decoded jwt
 		const userId = await getUserIdFromToken(token);
@@ -99,11 +104,7 @@ async function deleteList(req, res, next) {
 		const listId = req.params.listId;
 
 		// grabs the JWT token from the http request headers
-		const token = req.headers.authorization?.split(" ")[1];
-
-		if (!token) {
-			return next(new ErrorResponse("Token missing", 400));
-		}
+		const token = getToken(req, res, next);
 
 		// gets userId based on decoded jwt
 		const userId = await getUserIdFromToken(token);
@@ -151,11 +152,7 @@ async function updateList(req, res, next) {
 		const listId = req.params.listId;
 
 		// grabs the JWT token from the http request headers
-		const token = req.headers.authorization?.split(" ")[1];
-
-		if (!token) {
-			return next(new ErrorResponse("Token missing", 400));
-		}
+		const token = getToken(req, res, next);
 
 		// gets userId based on decoded jwt
 		const userId = await getUserIdFromToken(token);
@@ -246,17 +243,67 @@ async function addLink(req, res, next) {
 			user: updatedUser,
 		});
 	} catch (err) {
-		console.log("💥 ERROR: ", err);
 		next(err);
 	}
 }
 
-function getToken(req, res, next) {
-	const token = req.headers.authorization?.split(" ")[1];
-	if (!token) {
-		return next(new ErrorResponse("Token missing", 400));
+async function deleteLink(req, res, next) {
+	try {
+		const listId = req.params.listId;
+		const linkId = req.params.linkId;
+
+		// grabs the JWT token from the http request headers
+		const token = getToken(req, res, next);
+
+		// gets userId based on decoded jwt
+		const userId = await getUserIdFromToken(token);
+
+		// Return error if jwt token could not be decoded
+		if (userId === null) {
+			return next(new ErrorResponse("Unauthorized", 401));
+		}
+
+		// Finds user in database based on id in decoded JWT token
+		const user = await User.findById(userId).populate("lists");
+
+		let list = "";
+
+		if (user) {
+			// Finds list in database based on listId
+			list = await List.findById(listId);
+
+			if (!list) {
+				return next(
+					new ErrorResponse("Could not find a list with that ID", 404)
+				);
+			}
+
+			list.links = list.links.filter((link) => {
+				return link._id.toString() !== linkId;
+			});
+
+			// Save changes in list to database
+			await list.save();
+		}
+
+		const updatedUser = await User.findById(userId).populate("lists");
+
+		// Send success response and user data back to user
+		res.status(200).json({
+			success: true,
+			list,
+			user: updatedUser,
+		});
+	} catch (err) {
+		next(err);
 	}
-	return token;
 }
 
-module.exports = { createList, getListById, deleteList, updateList, addLink };
+module.exports = {
+	createList,
+	getListById,
+	deleteList,
+	updateList,
+	addLink,
+	deleteLink,
+};

@@ -267,7 +267,7 @@ describe("Lists API", () => {
 		describe("Adding a link to a list", () => {
 			it("succeeds when provided all necessary information", async () => {
 				const newLink = {
-					title: "New link",
+					title: "Google",
 					url: "https://www.google.com",
 					description: "This is a link to google",
 				};
@@ -285,6 +285,121 @@ describe("Lists API", () => {
 
 				expect(descriptions).toContain(newLink.description);
 			});
+
+			it("fails with status code 400 if token is missing", async () => {
+				const newLink = {
+					title: "New link",
+					url: "https://www.google.com",
+					description: "This is a link to google",
+				};
+
+				const response = await api
+					.post(`/api/lists/${listId}/links`)
+					.send(newLink)
+					.expect(400)
+					.expect("Content-Type", /application\/json/);
+
+				expect(response.body.error).toBe("Token missing");
+			});
+
+			it("fails with status code 400 if listId is invalid", async () => {
+				const newLink = {
+					title: "Google",
+					url: "https://www.google.com",
+					description: "This is a link to google",
+				};
+
+				const incorrectListId = "badId123";
+
+				const response = await api
+					.post(`/api/lists/${incorrectListId}/links`)
+					.send(newLink)
+					.set("Authorization", `bearer ${token}`)
+					.expect(400)
+					.expect("Content-Type", /application\/json/);
+
+				expect(response.body.error).toBe("Invalid ID");
+			});
+
+			it("fails with status code 400 if link title is missing", async () => {
+				const newLink = {
+					url: "https://www.google.com",
+					description: "This is a link to google",
+				};
+
+				const response = await api
+					.post(`/api/lists/${listId}/links`)
+					.send(newLink)
+					.set("Authorization", `bearer ${token}`)
+					.expect(400)
+					.expect("Content-Type", /application\/json/);
+
+				expect(response.body.error).toBe("Links need to have a title");
+			});
+
+			it("fails with status code 400 if link url is missing", async () => {
+				const newLink = {
+					title: "Google",
+					description: "This is a link to google",
+				};
+
+				const response = await api
+					.post(`/api/lists/${listId}/links`)
+					.send(newLink)
+					.set("Authorization", `bearer ${token}`)
+					.expect(400)
+					.expect("Content-Type", /application\/json/);
+
+				expect(response.body.error).toBe("Links need to have an url");
+			});
+		});
+	});
+
+	describe("Removing a link from a list", () => {
+		let linkId;
+		let link;
+
+		beforeEach(async () => {
+			const linkToDelete = {
+				title: "Delete me",
+				url: "https://www.google.com",
+				description: "This link will be deleted",
+			};
+
+			const response = await api
+				.post(`/api/lists/${listId}/links`)
+				.send(linkToDelete)
+				.set("Authorization", `bearer ${token}`)
+				.expect(201)
+				.expect("Content-Type", /application\/json/);
+
+			linkId = response.body.list.links.at(-1)._id;
+			link = response.body.list.links.at(-1);
+		});
+
+		it("succeeds when provided all necessary information", async () => {
+			const response = await api
+				.delete(`/api/lists/${listId}/links/${linkId}`)
+				.set("Authorization", `bearer ${token}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			console.log(response.body);
+
+			const descriptions = response.body.list.links.map(
+				(link) => link.description
+			);
+
+			expect(descriptions).not.toContain(link.description);
+		});
+
+		it("fails with status code 400 if token is missing", async () => {
+			const response = await api
+				.delete(`/api/lists/${listId}/links/${linkId}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Token missing");
 		});
 	});
 
