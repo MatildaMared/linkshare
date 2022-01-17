@@ -384,8 +384,6 @@ describe("Lists API", () => {
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
-			console.log(response.body);
-
 			const descriptions = response.body.list.links.map(
 				(link) => link.description
 			);
@@ -400,6 +398,58 @@ describe("Lists API", () => {
 				.expect("Content-Type", /application\/json/);
 
 			expect(response.body.error).toBe("Token missing");
+		});
+
+		it("fails with status code 400 if listId is invalid", async () => {
+			const incorrectListId = "badId123";
+
+			const response = await api
+				.delete(`/api/lists/${incorrectListId}/links/${linkId}`)
+				.set("Authorization", `bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Invalid ID");
+		});
+	});
+
+	describe("Updating a link in a list", () => {
+		let linkId;
+		let link;
+
+		beforeAll(async () => {
+			const linkToUpdate = {
+				title: "Update me",
+				url: "https://www.google.com",
+				description: "This link will be updated",
+			};
+
+			const response = await api
+				.post(`/api/lists/${listId}/links`)
+				.send(linkToUpdate)
+				.set("Authorization", `bearer ${token}`)
+				.expect(201)
+				.expect("Content-Type", /application\/json/);
+
+			linkId = response.body.list.links.at(-1)._id;
+			link = response.body.list.links.at(-1);
+		});
+
+		it("succeeds when provided all necessary information", async () => {
+			const updatedLink = {
+				title: "The title is now updated",
+			};
+
+			const response = await api
+				.put(`/api/lists/${listId}/links/${linkId}`)
+				.send(updatedLink)
+				.set("Authorization", `bearer ${token}`)
+				.expect(200)
+				.expect("Content-Type", /application\/json/);
+
+			console.log(response.body.list.links);
+			const linkTitles = response.body.list.links.map((link) => link.title);
+			expect(linkTitles).toContain(updatedLink.title);
 		});
 	});
 

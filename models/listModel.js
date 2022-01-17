@@ -18,7 +18,7 @@ const listSchema = new mongoose.Schema({
 				type: String,
 				required: [true, "Links need to have an url"],
 			},
-			description: String,
+			description: { type: String, default: "" },
 		},
 	],
 });
