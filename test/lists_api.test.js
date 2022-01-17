@@ -227,8 +227,40 @@ describe("Lists API", () => {
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
-			console.log(response.body.user.lists[3]);
+			const titles = response.body.user.lists.map((list) => list.title);
+			expect(titles).toContain(updatedList.title);
 		});
+
+		it("fails with status code 400 if token is missing", async () => {
+			const updatedList = {
+				title: "I am updated",
+			};
+
+			const response = await api
+				.put(`/api/lists/${listId}`)
+				.send(updatedList)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Token missing");
+		});
+
+		it("fails with status code 400 if listId is invalid", async () => {
+			const updatedList = {
+				title: "I am updated",
+			};
+			
+			listId = "wrongId123";
+
+			const response = await api
+				.put(`/api/lists/${listId}`)
+				.send(updatedList)
+				.set("Authorization", `bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Invalid ID");
+		})
 	});
 
 	afterAll(async () => {
