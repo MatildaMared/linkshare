@@ -14,4 +14,7 @@ router.delete("/:listId", listController.deleteList);
 // Update list
 router.put("/:listId", listController.updateList);
 
+// Add new link to list
+router.post("/:listId/links", listController.addLink);
+
 module.exports = router;

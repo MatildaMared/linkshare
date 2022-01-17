@@ -10,7 +10,6 @@ const listSchema = new mongoose.Schema({
 	createdAt: { type: Date, default: Date.now },
 	links: [
 		{
-			_id: mongoose.Schema.Types.ObjectId,
 			title: {
 				type: String,
 				required: [true, "All links needs to have a title"],

@@ -249,18 +249,43 @@ describe("Lists API", () => {
 			const updatedList = {
 				title: "I am updated",
 			};
-			
-			listId = "wrongId123";
+
+			const incorrectListId = "wrongId123";
 
 			const response = await api
-				.put(`/api/lists/${listId}`)
+				.put(`/api/lists/${incorrectListId}`)
 				.send(updatedList)
 				.set("Authorization", `bearer ${token}`)
 				.expect(400)
 				.expect("Content-Type", /application\/json/);
 
 			expect(response.body.error).toBe("Invalid ID");
-		})
+		});
+	});
+
+	describe("Adding, removing and updating links inside a list", () => {
+		describe("Adding a link to a list", () => {
+			it("succeeds when provided all necessary information", async () => {
+				const newLink = {
+					title: "New link",
+					url: "https://www.google.com",
+					description: "This is a link to google",
+				};
+
+				const response = await api
+					.post(`/api/lists/${listId}/links`)
+					.send(newLink)
+					.set("Authorization", `bearer ${token}`)
+					.expect(201)
+					.expect("Content-Type", /application\/json/);
+
+				const descriptions = response.body.list.links.map(
+					(link) => link.description
+				);
+
+				expect(descriptions).toContain(newLink.description);
+			});
+		});
 	});
 
 	afterAll(async () => {
