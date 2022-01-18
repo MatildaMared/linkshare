@@ -447,9 +447,39 @@ describe("Lists API", () => {
 				.expect(200)
 				.expect("Content-Type", /application\/json/);
 
-			console.log(response.body.list.links);
 			const linkTitles = response.body.list.links.map((link) => link.title);
 			expect(linkTitles).toContain(updatedLink.title);
+		});
+
+		it("fails with status code 400 if token is missing", async () => {
+			const updatedLink = {
+				title: "The title is now updated",
+			};
+
+			const response = await api
+				.put(`/api/lists/${listId}/links/${linkId}`)
+				.send(updatedLink)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Token missing");
+		});
+
+		it("fails with status code 400 if listId is invalid", async () => {
+			const incorrectListId = "badId123";
+
+			const updatedLink = {
+				title: "The title is now updated",
+			};
+
+			const response = await api
+				.put(`/api/lists/${incorrectListId}/links/${linkId}`)
+				.send(updatedLink)
+				.set("Authorization", `bearer ${token}`)
+				.expect(400)
+				.expect("Content-Type", /application\/json/);
+
+			expect(response.body.error).toBe("Invalid ID");
 		});
 	});
 
