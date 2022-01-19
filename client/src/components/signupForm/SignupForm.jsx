@@ -7,7 +7,8 @@ import { signup, comparePasswords } from "../../services/authService";
 import { UserContext } from "../../context/UserContext";
 
 function SignupForm() {
-	const [_, updateUserContext] = useContext(UserContext);
+	// eslint-disable-next-line no-unused-vars
+	const [userContext, updateUserContext] = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -19,7 +20,7 @@ function SignupForm() {
 	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
 
-	const resetFields = () => {
+	const resetInputFields = () => {
 		emailRef.current.blur();
 		passwordRef.current.blur();
 		passwordConfirmRef.current.blur();
@@ -28,7 +29,7 @@ function SignupForm() {
 		setPassword("");
 		setPasswordConfirm("");
 		setFirstName("");
-	}
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -42,7 +43,7 @@ function SignupForm() {
 				email: email,
 				password: password,
 			});
-			console.log(data);
+			resetInputFields();
 			if (!data.success) {
 				setErrorMessage(data.error);
 				return;

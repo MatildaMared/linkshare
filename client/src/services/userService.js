@@ -1,6 +1,6 @@
 export async function getUser(token) {
 	try {
-		const response = await fetch("/api/user", {
+		const response = await fetch("/api/users", {
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${token}`,

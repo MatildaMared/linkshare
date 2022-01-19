@@ -12,9 +12,10 @@ function PrivateRoute({ children }) {
 			userContext.isLoading === false
 		);
 	}
-	console.log(userContext);
 
-	return isAllowed() ? children : <Navigate to="/login" />;
+	return isAllowed()
+		? children
+		: userContext.isLoading === false && <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

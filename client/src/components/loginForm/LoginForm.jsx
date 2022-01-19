@@ -1,17 +1,20 @@
 import React, { useState, createRef, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router";
 import TextInput from "../textInput/TextInput";
 import styled from "styled-components";
 import Button from "../button/Button";
 import { login } from "./../../services/authService";
 
 function LoginForm() {
+	// eslint-disable-next-line no-unused-vars
 	const [userContext, updateUserContext] = useContext(UserContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const emailRef = createRef();
 	const passwordRef = createRef();
 	const [errorMessage, setErrorMessage] = useState("");
+	const navigate = useNavigate();
 
 	const resetInputFields = () => {
 		emailRef.current.blur();
@@ -25,8 +28,19 @@ function LoginForm() {
 		console.log(email, password);
 		resetInputFields();
 
-		const user = await login(email, password);
-		console.log(user);
+		const data = await login(email, password);
+		if (!data.success) {
+			setErrorMessage(data.error);
+			return;
+		}
+		localStorage.clear();
+		localStorage.setItem("token", data.token);
+		updateUserContext({
+			user: data.user,
+			isAuthenticated: true,
+			isLoading: false,
+		});
+		navigate("/");
 	};
 
 	return (
