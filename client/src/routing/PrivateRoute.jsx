@@ -4,14 +4,17 @@ import { UserContext } from "../context/UserContext";
 
 function PrivateRoute({ children }) {
 	const [userContext] = useContext(UserContext);
+
+	function isAllowed() {
+		return (
+			localStorage.getItem("token") &&
+			userContext.isAuthenticated === true &&
+			userContext.isLoading === false
+		);
+	}
 	console.log(userContext);
-	return localStorage.getItem("token") &&
-		userContext.isAuthenticated === true &&
-		userContext.isLoading === false ? (
-		children
-	) : (
-		<Navigate to="/login" />
-	);
+
+	return isAllowed() ? children : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;
