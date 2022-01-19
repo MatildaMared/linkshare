@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
-import { getUser } from '../services/userService';
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
 
@@ -10,47 +9,47 @@ export const UserProvider = ({ children }) => {
 		user: {},
 	});
 
-	useEffect(() => {
-		if (localStorage.getItem("token") && context.isAuthenticated !== true) {
-			setUserData();
-		} else {
-			updateContext({
-				isLoading: false,
-			});
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (localStorage.getItem("token") && context.isAuthenticated !== true) {
+	// 		setUserData();
+	// 	} else {
+	// 		updateContext({
+	// 			isLoading: false,
+	// 		});
+	// 	}
+	// }, []);
 
-  async function setUserData() {
-		try {
-			const token = localStorage.getItem("token");
+	// async function setUserData() {
+	// 	try {
+	// 		const token = localStorage.getItem("token");
 
-			let user = null;
+	// 		let user = null;
 
-			if (token) {
-				user = await getUser(token);
+	// 		if (token) {
+	// 			user = await getUser(token);
 
-				if (user) {
-					updateContext({
-						isAuthenticated: true,
-						isLoading: false,
-						user,
-					});
+	// 			if (user) {
+	// 				updateContext({
+	// 					isAuthenticated: true,
+	// 					isLoading: false,
+	// 					user,
+	// 				});
 
-				} else {
-					updateContext({
-						isAuthenticated: false,
-					});
-					localStorage.removeItem("token");
-				}
+	// 			} else {
+	// 				updateContext({
+	// 					isAuthenticated: false,
+	// 				});
+	// 				localStorage.removeItem("token");
+	// 			}
 
-				updateContext({
-					isLoading: false,
-				});
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	}
+	// 			updateContext({
+	// 				isLoading: false,
+	// 			});
+	// 		}
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// }
 
 	function updateContext(updates) {
 		setContext((prevState) => {

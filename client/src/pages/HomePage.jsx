@@ -1,19 +1,11 @@
-import React, { useContext } from "react";
-import { UserContext } from "./../context/UserContext";
-import styled from "styled-components";
+import React from "react";
 
 function HomePage() {
-	const [userContext, updateUserContext] = useContext(UserContext);
 	return (
-		<Wrapper>
-			<h1>Hello {userContext.user.firstName}!</h1>
-		</Wrapper>
+		<div>
+			<h1>Home Page</h1>
+		</div>
 	);
 }
-
-const Wrapper = styled.main`
-	width: 100%;
-	padding: 16px;
-`;
 
 export default HomePage;
